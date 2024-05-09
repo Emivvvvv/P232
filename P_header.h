@@ -7,6 +7,10 @@
  * Yeditepe University CSE232 course group term project.
  */
 
+int P_dot;
+int P_sum;
+int P_aver;
+
 struct ArrayTable {
     char name[10];
     int dim; // 1: 1-dimensional, 2: 2-dimensional
@@ -24,43 +28,41 @@ struct ParseTable {
 struct ParseTable PT;
 
 // Make necessary changes
-extern void
-declaration();
+char* declaration();
 
 // Make necessary changes
-extern void
-read();
+char* read();
 
 // Make necessary changes
-extern void
+extern char*
 copy();
 
 // Make necessary changes
-extern void
+extern char*
 initialize();
 
 // Make necessary changes
-extern void
+extern char*
 print();
 
 // Make necessary changes
-extern void
+extern char*
 matrix_dot_product();
 
 // Make necessary changes
-extern void
+extern char*
 matrix_addition();
 
 // Make necessary changes
-extern void
+extern char*
 matrix_multiplication();
 
 // Make necessary changes
-extern void
+extern char*
 reduction_operations_sum();
 
 // Make necessary changes
-extern void
+extern char*
 reduction_operations_aver();
 
 #endif

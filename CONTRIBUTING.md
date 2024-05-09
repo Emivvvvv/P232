@@ -7,7 +7,7 @@ Welcome to the P232 project! We value your contributions and aim to make this pr
   ```
   feat/<feature-name>
   ```
-  For example: `feat/matrix-multiplication`
+  For example: `feat/matrix-multiplication` or `feat/copy-function`
 
 
 - You might also need to fix some problem related with a feature, then you should use following naming:

@@ -13,25 +13,26 @@ void assign_token(const char *token, char *target);
 void parse_line(char* line);
 void enter_array_table();
 void process_and_expand_directive();
-void print_spaces();
+void print_with_spaces(const char* expanded_line);
+int find_array_index(const char* array_name);
 
 int array_table_index = 0;
 int line_left_space_count = 0;
 
-FILE* sourceFile = NULL;
-FILE* expandedFile = NULL;
+FILE* source_file = NULL;
+FILE* expanded_file = NULL;
 
 int main() {
-    sourceFile = fopen("../myCprog.c", "r");
-    expandedFile = fopen("../expanded.c", "w");
+    source_file = fopen("../myCprog.c", "r");
+    expanded_file = fopen("../expanded.c", "w");
 
-    if (!sourceFile || !expandedFile) {
+    if (!source_file || !expanded_file) {
         printf("Error opening files!\n");
         return 1;
     }
 
     char line[1024];
-    while (fgets(line, sizeof(line), sourceFile)) {
+    while (fgets(line, sizeof(line), source_file)) {
         char trimmed_line[1024];
         strcpy(trimmed_line, trim(line, &line_left_space_count));
 
@@ -42,12 +43,12 @@ int main() {
             }
             process_and_expand_directive();
         } else {
-            fprintf(expandedFile, "%s\n", line);
+            fprintf(expanded_file, "%s\n", line);
         }
     }
 
-    fclose(sourceFile);
-    fclose(expandedFile);
+    fclose(source_file);
+    fclose(expanded_file);
 
     return 0;
 }
@@ -112,12 +113,12 @@ void enter_array_table() {
 
 // Process directive based on parsed information
 void process_and_expand_directive() {
-    char expanded_line[1024];
+    char expanded_line[2048] = {0};
 
     if (strcmp(PT.oper, "@int") == 0 || strcmp(PT.oper, "@int1") == 0) {
         strcpy(expanded_line, declaration(array_table_index - 1));
     } else if (strcmp(PT.oper, "@read") == 0) {
-        strcpy(expanded_line, read());
+        strcpy(expanded_line, read(find_array_index(&PT.lhs)));
     } else if (strcmp(PT.oper, "@copy") == 0) {
         strcpy(expanded_line, copy());
     } else if (strcmp(PT.oper, "@init") == 0) {
@@ -138,10 +139,36 @@ void process_and_expand_directive() {
         printf("Undefined directive: %s", PT.oper);
     }
     
-    print_spaces();
-    fprintf(expandedFile, "%s\n", expanded_line);
+    print_with_spaces(expanded_line);
 }
 
-void print_spaces() {
-    for (int i = 0; i < line_left_space_count; i++) fprintf(expandedFile, " ");
+void print_with_spaces(const char* expanded_line) {
+    char spaces[line_left_space_count + 1];  // +1 for the null terminator
+    memset(spaces, ' ', line_left_space_count);
+    spaces[line_left_space_count] = '\0';
+
+    const char *temp = expanded_line;
+    while (*temp) {
+        fprintf(expanded_file, "%s", spaces); // Print spaces at the beginning of each line
+
+        // Print characters until a newline or end of string
+        while (*temp && *temp != '\n') {
+            fputc(*temp, expanded_file);
+            temp++;
+        }
+
+        // Handle newline at the end of line
+        if (*temp == '\n') {
+            fputc(*temp, expanded_file);
+            temp++;
+        } else {
+            // If we reach the end of the string without a newline, add one
+            fputc('\n', expanded_file);
+        }
+    }
+}
+
+int find_array_index(const char* array_name) {
+    //TODO: complete function that will find the AT index that has given array name
+    return 1;
 }

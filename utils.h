@@ -11,5 +11,4 @@ extern char* rtrim(char* s);
 
 extern char* trim(char* s, int* left_trim_space_count);
 
-
 #endif //P232_UTILS_H

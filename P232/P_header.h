@@ -7,6 +7,22 @@
  * Yeditepe University CSE232 course group term project.
  */
 
+struct ArrayTable {
+    char name[10];
+    int dim; // 1: 1-dimensional, 2: 2-dimensional
+    char size1[10]; // size of dimension 1
+    char size2[10]; // size of dimension 2
+};
+struct ArrayTable AT[20]; // max. 20 arrays
+
+struct ParseTable {
+    char oper[10]; // @read, @copy, etc.
+    char lhs; // array on the left hand side
+    char rhs1; // first array on the right hand side
+    char rhs2; // second array on the right hand side
+};
+struct ParseTable PT;
+
 // Make necessary changes
 extern void
 declaration();

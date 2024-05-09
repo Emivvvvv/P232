@@ -10,6 +10,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 int P_dot;
 int P_sum;
@@ -37,8 +38,11 @@ struct ParseTable PT;
 // @return char*: A string containing the C language declaration for the array.
 extern char* declaration(int array_table_index);
 
-// Make necessary changes
-extern char* read();
+// Reads integers seperated by spaces from a file and stores them into the array defined in the array table.
+// The function handles both one-dimensional and two-dimensional arrays, depending on the array's dimension in the array table.
+// @param array_table_index: The index in the array table which contains the array's name, dimensions, and size specifications.
+// @return char*: A string containing the C code necessary to perform the file reading and array population.
+extern char* read(int array_table_index);
 
 // Make necessary changes
 extern char* copy();

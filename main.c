@@ -15,14 +15,18 @@
 void assign_token(const char *token, char *target);
 void parse_line(char* line);
 void enter_array_table();
-void process_and_expand_directive(FILE* fp);
-
+void process_and_expand_directive();
+void print_spaces();
 
 int array_table_index = 0;
+int line_left_space_count = 0;
+
+FILE* sourceFile = NULL;
+FILE* expandedFile = NULL;
 
 int main() {
-    FILE *sourceFile = fopen("../myCprog.c", "r");
-    FILE *expandedFile = fopen("../expanded.c", "w");
+    sourceFile = fopen("../myCprog.c", "r");
+    expandedFile = fopen("../expanded.c", "w");
 
     if (!sourceFile || !expandedFile) {
         printf("Error opening files!\n");
@@ -32,14 +36,14 @@ int main() {
     char line[1024];
     while (fgets(line, sizeof(line), sourceFile)) {
         char trimmed_line[1024];
-        strcpy(trimmed_line, trim(line));
+        strcpy(trimmed_line, trim(line, &line_left_space_count));
 
         if (trimmed_line[0] == '@') {
             parse_line(line);
             if (strcmp(PT.oper, "@int") == 0 || strcmp(PT.oper, "@int1") == 0) {
                 enter_array_table();
             }
-            process_and_expand_directive(expandedFile);
+            process_and_expand_directive();
         } else {
             fprintf(expandedFile, "%s\n", line);
         }
@@ -109,7 +113,7 @@ void enter_array_table() {
 }
 
 // Process directive based on parsed information
-void process_and_expand_directive(FILE* fp) {
+void process_and_expand_directive() {
     char expanded_line[1024];
 
     if (strcmp(PT.oper, "@int") == 0 || strcmp(PT.oper, "@int1") == 0) {
@@ -135,7 +139,11 @@ void process_and_expand_directive(FILE* fp) {
     } else {
         printf("Undefined directive: %s", PT.oper);
     }
+    
+    print_spaces();
+    fprintf(expandedFile, "%s\n", expanded_line);
+}
 
-    //TODO: SAVE THE SPACE THEN ADD THAT SPACE TO EACH LINE.
-    fprintf(fp, "%s\n", expanded_line);
+void print_spaces() {
+    for (int i = 0; i < line_left_space_count; i++) fprintf(expandedFile, " ");
 }

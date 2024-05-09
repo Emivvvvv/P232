@@ -7,6 +7,10 @@
  * Yeditepe University CSE232 course group term project.
  */
 
+#include <string.h>
+#include <ctype.h>
+#include <stdio.h>
+
 int P_dot;
 int P_sum;
 int P_aver;
@@ -27,42 +31,37 @@ struct ParseTable {
 };
 struct ParseTable PT;
 
-// Make necessary changes
-char* declaration();
+// Generates a C language declaration for an integer array based on the specification provided in the array table.
+// Both 1D and 2D array generation is possible.
+// @param array_table_index: The index in the array table which contains the array's name, dimensions, and sizes.
+// @return char*: A string containing the C language declaration for the array.
+extern char* declaration(int array_table_index);
 
 // Make necessary changes
-char* read();
+extern char* read();
 
 // Make necessary changes
-extern char*
-copy();
+extern char* copy();
 
 // Make necessary changes
-extern char*
-initialize();
+extern char* initialize();
 
 // Make necessary changes
-extern char*
-print();
+extern char* print();
 
 // Make necessary changes
-extern char*
-matrix_dot_product();
+extern char* matrix_dot_product();
 
 // Make necessary changes
-extern char*
-matrix_addition();
+extern char* matrix_addition();
 
 // Make necessary changes
-extern char*
-matrix_multiplication();
+extern char* matrix_multiplication();
 
 // Make necessary changes
-extern char*
-reduction_operations_sum();
+extern char* reduction_operations_sum();
 
 // Make necessary changes
-extern char*
-reduction_operations_aver();
+extern char* reduction_operations_aver();
 
 #endif

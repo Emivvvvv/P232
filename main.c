@@ -5,9 +5,6 @@
  * Yeditepe University CSE232 course group term project.
  */
 
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
 #include "P_header.h"
 #include "utils.h"
 
@@ -88,7 +85,8 @@ void assign_token(const char *token, char *target) {
 }
 
 void enter_array_table() {
-    strcpy(AT[array_table_index].name, &PT.lhs);
+    AT[array_table_index].name[0] = PT.lhs;
+    AT[array_table_index].name[1] = '\0';
 
     if (strcmp(PT.oper, "@int1") == 0) {
         AT[array_table_index].dim = 1;
@@ -117,7 +115,7 @@ void process_and_expand_directive() {
     char expanded_line[1024];
 
     if (strcmp(PT.oper, "@int") == 0 || strcmp(PT.oper, "@int1") == 0) {
-        strcpy(expanded_line, declaration());
+        strcpy(expanded_line, declaration(array_table_index - 1));
     } else if (strcmp(PT.oper, "@read") == 0) {
         strcpy(expanded_line, read());
     } else if (strcmp(PT.oper, "@copy") == 0) {

@@ -3,8 +3,8 @@
 int main()
 {
     @int X(10)
-        @int X(5)
-            @int A(3,5)
+        @int A(5)
+            @int B(3,5)
     @read B < f1
         @copy C = A
             @init X = 0

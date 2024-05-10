@@ -69,6 +69,7 @@ extern char* matrix_dot_product(int A_index , int B_index);
 // @return char*: A string containing C code to add two matrices and store the result in another matrix.
 extern char* matrix_addition(int C_index, int A_index , int B_index);
 
+
 // Takes two two-dimensional matrices, multiplies them using the standard matrix multiplication rule, and assigns the result to another matrix.
 // The function checks if the matrices have the correct dimensions for multiplication before generating the C code.
 // @param C_index: The index in the array table for the result matrix where the multiplication result is stored.

@@ -109,9 +109,29 @@ char* print() {
     return extended;
 }
 
-// Make necessary changes
-char* matrix_dot_product() {
-    char* extended = "@dotp";
+// Takes two 1D matrices , takes their dot product and assigns it to a integer and environmental variable P_dot
+char* matrix_dot_product(int C, int A_index , int B_index) {
+    char* extended[1024] = {0};
+
+    struct ArrayTable* A = &AT[A_index];
+    struct ArrayTable* B = &AT[B_index];
+
+    if (A->dim != 1 || B->dim != 1) {
+        return "Error: All arrays must be 1D for array addition.";
+    }
+    if (strcmp(A->size1, B->size1) != 0) {
+        return "Error: Arrays A and B must have the same length for addition.";
+    }
+    sprintf(extended,
+        "for (int i = 0; i < %s; i++) {\n"
+        "    %s = %s[i] + %s[i];\n"
+        "}\n"
+        "P_dot = %s;",
+        A->size1,
+        C, A->name, B->name,
+        C
+    );
+
     return extended;
 }
 

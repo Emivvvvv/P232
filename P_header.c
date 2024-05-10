@@ -110,7 +110,7 @@ char* print() {
 }
 
 // Takes two 1D matrices , takes their dot product and assigns it to a integer and environmental variable P_dot
-char* matrix_dot_product(char* C, int A_index , int B_index) {
+char* matrix_dot_product(int A_index , int B_index) {
     char* extended[1024] = {0};
 
     struct ArrayTable* A = &AT[A_index];
@@ -123,13 +123,12 @@ char* matrix_dot_product(char* C, int A_index , int B_index) {
         return "Error: Arrays A and B must have the same length for  for dot product.";
     }
     sprintf(extended,
-        "for (int i = 0; i < %s; i++) {\n"
-        "\t%s += %s[i] + %s[i];\n"
-        "}\n"
-        "P_dot = %s;",
-        A->size1,
-        C, A->name, B->name,
-        C
+            "P_dot = 0;\n"
+            "for (int i = 0; i < %s; i++) {\n"
+            "\tP_dot += %s[i] + %s[i];\n"
+            "}\n",
+            A->size1,
+            A->name, B->name
     );
 
     return extended;
@@ -151,10 +150,10 @@ char* matrix_addition(int C_index, int A_index , int B_index) {
         }
        sprintf(extended,
         "for (int i = 0; i < %s; i++) {\n"
-        "\t%s[i] = %s[i] + %s[i];\n"
+        "\t%c[i] = %c[i] + %c[i];\n"
         "}\n",
         A->size1,
-        C->name, A->name, B->name
+        C->name[0], A->name[0], B->name[0]
         ); 
     }
     else if (A->dim == 2 && B->dim == 2 && C->dim == 2){
@@ -167,12 +166,12 @@ char* matrix_addition(int C_index, int A_index , int B_index) {
         sprintf(extended,
         "for (int i = 0; i < %s; i++) {\n"
         "\tfor(int j = 0; j < %s; j++){\n"
-        "\t\t%s[i][j] = %s[i][j] + %s[i][j];\n"
+        "\t\t%c[i][j] = %c[i][j] + %c[i][j];\n"
         "\t}\n"
         "}\n",
         A->size1,
         A->size2,
-        C->name, A->name, B->name
+        C->name[0], A->name[0], B->name[0]
         ); 
     } else {
         return "Error: All arrays must have the same dimensions for array addition.";

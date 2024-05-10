@@ -14,7 +14,7 @@ void parse_line(char* line);
 void enter_array_table();
 void process_and_expand_directive();
 void print_with_spaces(const char* expanded_line);
-int find_array_index(const char* array_name);
+int find_array_index(const char array_name);
 
 int array_table_index = 0;
 int line_left_space_count = 0;
@@ -118,7 +118,7 @@ void process_and_expand_directive() {
     if (strcmp(PT.oper, "@int") == 0 || strcmp(PT.oper, "@int1") == 0) {
         strcpy(expanded_line, declaration(array_table_index - 1));
     } else if (strcmp(PT.oper, "@read") == 0) {
-        strcpy(expanded_line, read(find_array_index(&PT.lhs)));
+        strcpy(expanded_line, read(find_array_index(PT.lhs)));
     } else if (strcmp(PT.oper, "@copy") == 0) {
         strcpy(expanded_line, copy());
     } else if (strcmp(PT.oper, "@init") == 0) {
@@ -126,9 +126,9 @@ void process_and_expand_directive() {
     } else if (strcmp(PT.oper, "@print") == 0) {
         strcpy(expanded_line, print());
     } else if (strcmp(PT.oper, "@dotp") == 0) {
-        strcpy(expanded_line, matrix_dot_product(&PT.lhs,find_array_index(&PT.rhs1),find_array_index(&PT.rhs2)));
+        strcpy(expanded_line, matrix_dot_product(find_array_index(PT.rhs1),find_array_index(PT.rhs2)));
     } else if (strcmp(PT.oper, "@add") == 0) {
-        strcpy(expanded_line, matrix_addition(find_array_index(&PT.lhs),find_array_index(&PT.rhs1),find_array_index(&PT.rhs2)));
+        strcpy(expanded_line, matrix_addition(find_array_index(PT.lhs),find_array_index(PT.rhs1),find_array_index(PT.rhs2)));
     } else if (strcmp(PT.oper, "@mmult") == 0) {
         strcpy(expanded_line, matrix_multiplication());
     } else if (strcmp(PT.oper, "@sum") == 0) {
@@ -168,7 +168,7 @@ void print_with_spaces(const char* expanded_line) {
     }
 }
 
-int find_array_index(const char* array_name) {
+int find_array_index(const char array_name) {
     //TODO: complete function that will find the AT index that has given array name
-    return 1;
+    
 }

@@ -3,16 +3,14 @@
 int main()
 {
     @int A(10)
-        @int B(7,5)
-    @int D(3,5)
-    @read B < f1
-    @copy C = A
-        @init X = 0
-            @print X
-                @dotp C = A . B
-            @add C = A + B
-        @mmult C = A * B
-        @sum A
-    @aver A
+    @int B(10)
+    @int C(10)
+    @int D(10)
+    @int E(10)
+    @int F(10)
+    @int G(10)
+    @read D < f1
+    @dotp Z= B . C
+    @add E = F + G
     return 0;
 }

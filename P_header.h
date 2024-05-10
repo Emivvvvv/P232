@@ -60,7 +60,7 @@ extern char* print();
 // @param A_index: The index in the array table for the first 1D array.
 // @param B_index: The index in the array table for the second 1D array.
 // @return char*: A string containing C code that calculates the dot product of two 1D arrays.
-extern char* matrix_dot_product(char* C, int A_index , int B_index);
+extern char* matrix_dot_product(int A_index , int B_index);
 
 // Make necessary changes
 extern char* matrix_addition(int C_index, int A_index , int B_index);

@@ -44,7 +44,8 @@ extern char* declaration(int array_table_index);
 // @return char*: A string containing the C code necessary to perform the file reading and array population.
 extern char* read(int array_table_index);
 
-// Takes adress of two arrays.
+// Assigns one array's information to another array. 
+//Their sizes and dimensions must be equal. If arrays have different dimensions or sizes, return an error string.
 // The function handles both one-dimensional and two-dimensional arrays, depending on the array's dimension in the array table.
 // @param Array_S: The index of source array in the array table which contains the array's name, dimensions, and size specifications.
 // @param Array_D: The index of destination array in the array table which contains the array's name, dimensions, and size specifications.

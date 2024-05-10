@@ -120,7 +120,7 @@ void process_and_expand_directive() {
     } else if (strcmp(PT.oper, "@read") == 0) {
         strcpy(expanded_line, read(find_array_index(PT.lhs)));
     } else if (strcmp(PT.oper, "@copy") == 0) {
-        strcpy(expanded_line, copy(find_array_index(PT.rhs1),find_array_index(PT.rhs2)));
+        strcpy(expanded_line, copy(find_array_index(PT.lhs),find_array_index(PT.rhs1)));
     } else if (strcmp(PT.oper, "@init") == 0) {
         strcpy(expanded_line, initialize());
     } else if (strcmp(PT.oper, "@print") == 0) {

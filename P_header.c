@@ -255,14 +255,82 @@ char* matrix_multiplication(int C_index, int A_index , int B_index) {
     return extended;
 }
 
-// Make necessary changes
-char* reduction_operations_sum() {
-    char* extended = "@sum";
+// Takes an array or a matrix, sums all its elements and assign the result to a variable called P_sum.
+char* reduction_operations_sum(int A_index) {
+    char* extended[1024] = {0};
+
+    struct ArrayTable* A = &AT[A_index];
+
+    if(A->dim == 1) {
+
+        sprintf(extended,
+        "P_sum = 0;\n"
+        "for(int i = 0; i < %s; i++){\n"
+        "\tP_sum += %s[i];\n"
+        "}\n",
+        A->size1,
+        A->name);
+    }
+    else if(A->dim == 2) {
+
+        sprintf(extended,
+        "P_sum = 0;\n"
+        "for(int i = 0; i < %s; i++){\n"
+        "\tfor(int j = 0; j < %s; j++){\n"
+        "\t\tP_sum += %s[i][j];\n"
+        "\t}\n"
+        "}\n",
+        A->size1,
+        A->size2,
+        A->name);
+
+    }
+    else {
+        return "Error: Unsupported dimension for sum operation.";
+    }
+
     return extended;
 }
 
-// Make necessary changes
-char* reduction_operations_aver() {
-    char* extended = "@aver";
+// Takes an array or a matrix, sums all its elements and divides its number of elements and assign the result to a variable called P_aver.
+char* reduction_operations_aver(int A_index) {
+    char* extended[1024] = {0};
+
+    struct ArrayTable* A = &AT[A_index];
+
+    if(A->dim == 1) {
+
+        sprintf(extended,
+        "P_aver = 0;\n"
+        "for(int i = 0; i < %s; i++){\n"
+        "\tP_aver += %s[i];\n"
+        "}\n"
+        "P_aver /= %s;\n",
+        A->size1,
+        A->name,
+        A->size1);
+
+    }
+    else if(A->dim == 2) {
+
+        sprintf(extended,
+        "P_aver = 0;\n"
+        "for(int i = 0; i < %s; i++){\n"
+        "\tfor(int j = 0; j < %s; j++){\n"
+        "\t\tP_aver += %s[i][j];\n"
+        "\t}\n"
+        "}\n"
+        "P_aver /= (%s * %s);\n",
+        A->size1,
+        A->size2,
+        A->name,
+        A->size1,
+        A->size2);
+
+    }
+    else {
+        return "Error: Unsupported dimension for average operation.";
+    }
+
     return extended;
 }

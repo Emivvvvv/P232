@@ -132,9 +132,9 @@ void process_and_expand_directive() {
     } else if (strcmp(PT.oper, "@mmult") == 0) {
         strcpy(expanded_line, matrix_multiplication(find_array_index(PT.lhs),find_array_index(PT.rhs1),find_array_index(PT.rhs2)));
     } else if (strcmp(PT.oper, "@sum") == 0) {
-        strcpy(expanded_line, reduction_operations_sum());
+        strcpy(expanded_line, reduction_operations_sum(find_array_index(PT.lhs)));
     } else if (strcmp(PT.oper, "@aver") == 0) {
-        strcpy(expanded_line, reduction_operations_aver());
+        strcpy(expanded_line, reduction_operations_aver(find_array_index(PT.lhs)));
     } else {
         printf("Undefined directive: %s", PT.oper);
     }
@@ -170,5 +170,4 @@ void print_with_spaces(const char* expanded_line) {
 
 int find_array_index(const char array_name) {
     //TODO: complete function that will find the AT index that has given array name
-    
 }

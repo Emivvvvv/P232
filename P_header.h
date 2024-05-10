@@ -45,7 +45,7 @@ extern char* declaration(int array_table_index);
 extern char* read(int array_table_index);
 
 // Make necessary changes
-extern char* copy();
+extern char* copy(int Array_S , int Array_D);
 
 // Make necessary changes
 extern char* initialize();

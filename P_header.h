@@ -78,10 +78,17 @@ extern char* matrix_addition(int C_index, int A_index , int B_index);
 // @return char*: A string containing C code to multiply two matrices and store the result in another matrix.
 extern char* matrix_multiplication(int C_index, int A_index , int B_index);
 
-// Make necessary changes
+
+// Takes an array or a matrix, sums all its elements and assign the result to a variable called P_sum.
+// The function checks if the array is 1D or 2D array.
+// @param A_index: The index in the ArrayTable for the array whose average is to be calculated.
+// @return char*: A string containing C code that calculates the sum of the array's elements.
 extern char* reduction_operations_sum();
 
-// Make necessary changes
+// Takes an array or a matrix, sums all its elements and divides its number of elements and assign the result to a variable called P_aver.
+// The function checks if the array is 1D or 2D array.
+// @param A_index: The index in the ArrayTable for the array whose average is to be calculated.
+// @return char*: A string containing C code that calculates the average of the array's elements.
 extern char* reduction_operations_aver();
 
 #endif

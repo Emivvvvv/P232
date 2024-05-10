@@ -23,7 +23,6 @@ char* declaration(int array_table_index) {
 // Reads array elements from a file into the specified array from the array table.
 char* read(int array_table_index) {
     char extended[1024] = {0};
-    char edited_text[1024] = {0};
 
     char filename[3];
     filename[0] = PT.rhs1;
@@ -37,24 +36,21 @@ char* read(int array_table_index) {
             return NULL;
         }
 
-        int result = snprintf(edited_text, sizeof(edited_text), "FILE* file = fopen(\"%s\", \"r\");\n", filename);
-        if (result >= 0 && result < sizeof(edited_text)) {
-            strncat(extended, edited_text, sizeof(extended) - strlen(extended) - 1);
+        int result = snprintf(extended, sizeof(extended),
+                              "FILE* file = fopen(\"%s\", \"r\");\n"
+                              "int num, count = 0;\n"
+                              "while (count < %d && fscanf(file, \"%%d\", &num) == 1) {\n"
+                              "\t%s[count++] = num;\n"
+                              "}\n"
+                              "fclose(file);\n",
+                              filename,
+                              array_size,
+                              AT[array_table_index].name
+        );
+
+        if (result < 0 || result >= sizeof(extended)) {
+            return "Error: Something went wrong while creating the extended string.";
         }
-
-        strncat(extended, "int num, count = 0;\n", sizeof(extended) - strlen(extended) - 1);
-
-        result = snprintf(edited_text, sizeof(edited_text), "while (count < %d && fscanf(file, \"%%d\", &num) == 1) {\n", array_size);
-        if (result >= 0 && result < sizeof(edited_text)) {
-            strncat(extended, edited_text, sizeof(extended) - strlen(extended) - 1);
-        }
-
-        result = snprintf(edited_text, sizeof(edited_text), "\t%s[count++] = num;\n", AT[array_table_index].name);
-        if (result >= 0 && result < sizeof(edited_text)) {
-            strncat(extended, edited_text, sizeof(extended) - strlen(extended) - 1);
-        }
-
-        strncat(extended, "}\nfclose(file);\n", sizeof(extended) - strlen(extended) - 1);
     } else {
         int rows = atoi(AT[array_table_index].size1);
         int columns = atoi(AT[array_table_index].size2);
@@ -63,29 +59,25 @@ char* read(int array_table_index) {
             return NULL;
         }
 
-        int result = snprintf(edited_text, sizeof(edited_text), "FILE* file = fopen(\"%s\", \"r\");\n", filename);
-        if (result >= 0 && result < sizeof(edited_text)) {
-            strncat(extended, edited_text, sizeof(extended) - strlen(extended) - 1);
+        int result = snprintf(extended, sizeof(extended),
+                              "FILE* file = fopen(\"%s\", \"r\");\n"
+                              "int num, count = 0;\n"
+                              "for (int i = 0; i < %d && count < %d * %d; i++) {\n"
+                              "\tfor (int j = 0; j < %d && fscanf(file, \"%%d\", &num) == 1; j++) {\n"
+                              "\t\t%s[i][j] = num;\n"
+                              "\t\tcount++;\n"
+                              "\t}\n"
+                              "}\n"
+                              "fclose(file);\n",
+                              filename,
+                              rows, rows, columns,
+                              columns,
+                              AT[array_table_index].name
+        );
+
+        if (result < 0 || result >= sizeof(extended)) {
+            return "Error: Something went wrong while creating the extended string.";
         }
-
-        strncat(extended, "int num, count = 0;\n", sizeof(extended) - strlen(extended) - 1);
-
-        result = snprintf(edited_text, sizeof(edited_text), "for (int i = 0; i < %d && count < %d * %d; i++) {\n", rows, rows, columns);
-        if (result >= 0 && result < sizeof(edited_text)) {
-            strncat(extended, edited_text, sizeof(extended) - strlen(extended) - 1);
-        }
-
-        result = snprintf(edited_text, sizeof(edited_text), "\tfor (int j = 0; j < %d && fscanf(file, \"%%d\", &num) == 1; j++) {\n", columns);
-        if (result >= 0 && result < sizeof(edited_text)) {
-            strncat(extended, edited_text, sizeof(extended) - strlen(extended) - 1);
-        }
-
-        result = snprintf(edited_text, sizeof(edited_text), "\t\t%s[i][j] = num;\n\t\tcount++;\n", AT[array_table_index].name);
-        if (result >= 0 && result < sizeof(edited_text)) {
-            strncat(extended, edited_text, sizeof(extended) - strlen(extended) - 1);
-        }
-
-        strncat(extended, "\t}\n}\nfclose(file);\n", sizeof(extended) - strlen(extended) - 1);
     }
 
     return extended;

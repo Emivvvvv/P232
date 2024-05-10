@@ -109,7 +109,7 @@ char* print() {
     return extended;
 }
 
-// Takes two 1D matrices , takes their dot product and assigns it to a integer and environmental variable P_dot
+// Takes two 1D matrices, calculates their dot product and assigns it to the environmental variable P_dot
 char* matrix_dot_product(int A_index , int B_index) {
     char* extended[1024] = {0};
 
@@ -134,7 +134,7 @@ char* matrix_dot_product(int A_index , int B_index) {
     return extended;
 }
 
-// Takes two matrices , adds them accordingly and assigns the result to another matrix
+// Takes two matrices, adds them accordingly and assigns the result to another matrix
 char* matrix_addition(int C_index, int A_index , int B_index) {
     char* extended[1024] = {0};
 
@@ -179,7 +179,7 @@ char* matrix_addition(int C_index, int A_index , int B_index) {
     return extended;
 }
 
-// Takes two matrices , multiplies them accordingly and assigns the result to another matrix
+// Takes two matrices, multiplies them accordingly and assigns the result to another matrix
 char* matrix_multiplication(int C_index, int A_index , int B_index) {
     char* extended[1024] = {0};
 

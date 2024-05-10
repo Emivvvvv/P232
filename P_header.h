@@ -54,9 +54,8 @@ extern char* initialize();
 extern char* print();
 
 // Calculates the dot product of two one-dimensional arrays, given their indices in the array table,
-// and assigns the result to an integer variable and an environmental variable `P_dot`.
+// and assigns the result to the environmental variable `P_dot`.
 // The function checks that both arrays are 1D and have the same length before generating code to calculate the dot product.
-// @param C: An integer variable to store the dot product result.
 // @param A_index: The index in the array table for the first 1D array.
 // @param B_index: The index in the array table for the second 1D array.
 // @return char*: A string containing C code that calculates the dot product of two 1D arrays.

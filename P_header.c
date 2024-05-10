@@ -83,9 +83,54 @@ char* read(int array_table_index) {
     return extended;
 }
 
-// Make necessary changes
-char* copy() {
-    char* extended = "@copy";
+// Takes two arrays source and destination,then copies source to destination.
+char* copy(int Array_S , int Array_D) {
+    /*for (int i = 0; i < size; i++) {
+        destination[i] = source[i];
+    }*/
+
+    /*
+        for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            dest[i][j] = source[i][j];
+        }
+    }  
+        */
+    char* extended[1024] = {0};
+
+    struct ArrayTable* A = &AT[Array_S];
+    struct ArrayTable* B = &AT[Array_D];
+
+    if (A->dim !=  B->dim ) {
+        return "Error: Arrays should have same dimension value.";
+    }
+
+    if (strcmp(A->size1, B->size1)) {
+        return "Error: Arrays must have the same length.";
+    }
+    if(A->dim == 1)
+        sprintf(extended,
+                "for (int i = 0; i < %s; i++) {\n"
+                "\t%s[i] = %s[i];\n"
+                "}\n",
+                A->size1,
+                B->name, 
+                A->name
+        );
+ 
+    else if (A->dim == 2)
+        sprintf(extended,
+            "for (int i = 0; i < %s; i++) {\n"
+            "\tfor (int j = 0; j < %s; j++) {\n"
+            "\t\t%s[i][j] = %s[i][j];\n"
+            "\t}\n"
+            "}\n",
+            A->size1,
+            A->size2,
+            B->name, 
+            A->name
+        );
+
     return extended;
 }
 

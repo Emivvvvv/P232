@@ -124,7 +124,7 @@ char* matrix_dot_product(int C, int A_index , int B_index) {
     }
     sprintf(extended,
         "for (int i = 0; i < %s; i++) {\n"
-        "    %s = %s[i] + %s[i];\n"
+        "    %s += %s[i] + %s[i];\n"
         "}\n"
         "P_dot = %s;",
         A->size1,

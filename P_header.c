@@ -134,7 +134,7 @@ char* matrix_dot_product(int A_index , int B_index) {
     return extended;
 }
 
-// Make necessary changes
+// Takes two matrices , adds them accordingly and assigns the result to another matrix
 char* matrix_addition(int C_index, int A_index , int B_index) {
     char* extended[1024] = {0};
 
@@ -179,9 +179,41 @@ char* matrix_addition(int C_index, int A_index , int B_index) {
     return extended;
 }
 
-// Make necessary changes
-char* matrix_multiplication() {
-    char* extended = "@mmult ";
+// Takes two matrices , multiplies them accordingly and assigns the result to another matrix
+char* matrix_multiplication(int C_index, int A_index , int B_index) {
+    char* extended[1024] = {0};
+
+    struct ArrayTable* A = &AT[A_index];
+    struct ArrayTable* B = &AT[B_index];
+    struct ArrayTable* C = &AT[C_index];
+
+    if (A->dim == 2 && B->dim == 2 && C->dim == 2){
+        if ((strcmp(A->size1, C->size1) != 0) ||
+            (strcmp(A->size2, B->size1) != 0) ||
+            (strcmp(B->size2, C->size2) != 0)) {
+        return "Error: Arrays A , B and C must have axb bxc axc respectively sizes for array multiplication.";
+        }else {
+            sprintf(extended,
+            "for (int i = 0; i < %s; i++){\n"
+            "\tfor (int j = 0; j < %s; j++){\n"
+            "\t\t%s[i][j] = 0;\n"
+            "\t\tfor (int k = 0; k < %s; k++){\n"
+            "\t\t\t%s[i][j] += %s[i][k] * %s[k][j];\n"
+            "\t\t}\n"
+            "\t}\n"
+            "}\n",
+            C->size1 ,
+            C->size2 , 
+            C->name ,
+            A->size2,
+            C->name , A->name , B->name
+            );
+        }
+    
+    } else {
+        return "Error: Arrays A , B and C must have the 2D for array multiplication.";
+    }
+
     return extended;
 }
 

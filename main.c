@@ -130,7 +130,7 @@ void process_and_expand_directive() {
     } else if (strcmp(PT.oper, "@add") == 0) {
         strcpy(expanded_line, matrix_addition(find_array_index(PT.lhs),find_array_index(PT.rhs1),find_array_index(PT.rhs2)));
     } else if (strcmp(PT.oper, "@mmult") == 0) {
-        strcpy(expanded_line, matrix_multiplication());
+        strcpy(expanded_line, matrix_multiplication(find_array_index(PT.lhs),find_array_index(PT.rhs1),find_array_index(PT.rhs2)));
     } else if (strcmp(PT.oper, "@sum") == 0) {
         strcpy(expanded_line, reduction_operations_sum());
     } else if (strcmp(PT.oper, "@aver") == 0) {

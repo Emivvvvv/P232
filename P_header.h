@@ -62,11 +62,21 @@ extern char* print();
 // @return char*: A string containing C code that calculates the dot product of two 1D arrays.
 extern char* matrix_dot_product(int A_index , int B_index);
 
-// Make necessary changes
+// Takes two matrices (1D or 2D), adds them element-wise, and assigns the result to another matrix.
+// The function checks if all matrices have the same dimensions and lengths before generating C code for the addition.
+// @param C_index: The index in the array table for the result matrix where the addition result is stored.
+// @param A_index: The index in the array table for the first matrix to be added.
+// @param B_index: The index in the array table for the second matrix to be added.
+// @return char*: A string containing C code to add two matrices and store the result in another matrix.
 extern char* matrix_addition(int C_index, int A_index , int B_index);
 
-// Make necessary changes
-extern char* matrix_multiplication();
+// Takes two two-dimensional matrices, multiplies them using the standard matrix multiplication rule, and assigns the result to another matrix.
+// The function checks if the matrices have the correct dimensions for multiplication before generating the C code.
+// @param C_index: The index in the array table for the result matrix where the multiplication result is stored.
+// @param A_index: The index in the array table for the first matrix to be multiplied.
+// @param B_index: The index in the array table for the second matrix to be multiplied.
+// @return char*: A string containing C code to multiply two matrices and store the result in another matrix.
+extern char* matrix_multiplication(int C_index, int A_index , int B_index);
 
 // Make necessary changes
 extern char* reduction_operations_sum();

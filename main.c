@@ -167,7 +167,13 @@ void print_with_spaces(const char* expanded_line) {
         }
     }
 }
-
+//Find the AT index that has given array name
 int find_array_index(const char array_name) {
-    //TODO: complete function that will find the AT index that has given array name
+    for (int i = 0; i < 20 && AT[i].name[0] != '\0'; i++) {
+        if (AT[i].name[0] == array_name) {
+            return i; 
+        }
+    }
+    printf("Undefined Array: %s", array_name);
+    return -1; 
 }

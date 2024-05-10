@@ -80,7 +80,7 @@ char* read(int array_table_index) {
             strncat(extended, edited_text, sizeof(extended) - strlen(extended) - 1);
         }
 
-        result = snprintf(edited_text, sizeof(edited_text), "\t%s[i][j] = num;\n\tcount++;\n", AT[array_table_index].name);
+        result = snprintf(edited_text, sizeof(edited_text), "\t\t%s[i][j] = num;\n\t\tcount++;\n", AT[array_table_index].name);
         if (result >= 0 && result < sizeof(edited_text)) {
             strncat(extended, edited_text, sizeof(extended) - strlen(extended) - 1);
         }

@@ -102,7 +102,7 @@ char* copy(int Array_S , int Array_D) {
     struct ArrayTable* B = &AT[Array_D];
 
     if (A->dim !=  B->dim ) {
-        return "Error: Arrays should have same dimention value.";
+        return "Error: Arrays should have same dimension value.";
     }
 
     if (strcmp(A->size1, B->size1)) {

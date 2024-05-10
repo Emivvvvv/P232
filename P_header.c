@@ -271,13 +271,12 @@ char* reduction_operations_aver(int A_index) {
 
         sprintf(extended,
         "P_aver = 0;\n"
-        "totalElements = %s * %s;\n"
         "for(int i = 0; i < %s; i++){\n"
         "\tfor(int j = 0; j < %s; j++){\n"
         "\t\tP_aver += %s[i][j];\n"
         "\t}\n"
         "}\n"
-        "P_aver /= totalElements;\n",
+        "P_aver /= (%s * %s);\n",
         A->size1,
         A->size2,
         A->size1,

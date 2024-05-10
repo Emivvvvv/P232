@@ -170,7 +170,7 @@ void print_with_spaces(const char* expanded_line) {
 //Find the AT index that has given array name
 int find_array_index(const char* array_name) {
     for (int i = 0; i < 20 && AT[i].name[0] != '\0'; i++) {
-        if (strcmp(AT[i].name, array_name) == 0) {
+        if (AT[i].name[0] == array_name[0]) {
             return i; 
         }
     }

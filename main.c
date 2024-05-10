@@ -174,6 +174,6 @@ int find_array_index(const char array_name) {
             return i; 
         }
     }
-    printf("Undefined Array: %s", array_name);
+    printf("Undefined Array: %c", array_name);
     return -1; 
 }

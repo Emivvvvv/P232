@@ -120,7 +120,7 @@ void process_and_expand_directive() {
     } else if (strcmp(PT.oper, "@read") == 0) {
         strcpy(expanded_line, read(find_array_index(PT.lhs)));
     } else if (strcmp(PT.oper, "@copy") == 0) {
-        strcpy(expanded_line, copy());
+        strcpy(expanded_line, copy(find_array_index(PT.rhs1),find_array_index(PT.lhs)));
     } else if (strcmp(PT.oper, "@init") == 0) {
         strcpy(expanded_line, initialize());
     } else if (strcmp(PT.oper, "@print") == 0) {
@@ -132,9 +132,9 @@ void process_and_expand_directive() {
     } else if (strcmp(PT.oper, "@mmult") == 0) {
         strcpy(expanded_line, matrix_multiplication(find_array_index(PT.lhs),find_array_index(PT.rhs1),find_array_index(PT.rhs2)));
     } else if (strcmp(PT.oper, "@sum") == 0) {
-        strcpy(expanded_line, reduction_operations_sum());
+        strcpy(expanded_line, reduction_operations_sum(find_array_index(PT.lhs)));
     } else if (strcmp(PT.oper, "@aver") == 0) {
-        strcpy(expanded_line, reduction_operations_aver());
+        strcpy(expanded_line, reduction_operations_aver(find_array_index(PT.lhs)));
     } else {
         printf("Undefined directive: %s", PT.oper);
     }

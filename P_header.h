@@ -44,8 +44,13 @@ extern char* declaration(int array_table_index);
 // @return char*: A string containing the C code necessary to perform the file reading and array population.
 extern char* read(int array_table_index);
 
-// Make necessary changes
-extern char* copy();
+// Assigns one array's information to another array. 
+//Their sizes and dimensions must be equal. If arrays have different dimensions or sizes, return an error string.
+// The function handles both one-dimensional and two-dimensional arrays, depending on the array's dimension in the array table.
+// @param Array_S: The index of source array in the array table which contains the array's name, dimensions, and size specifications.
+// @param Array_D: The index of destination array in the array table which contains the array's name, dimensions, and size specifications.
+// @return char*: A string containing the C code necessary to perform copying source array to destination array.
+extern char* copy(int Array_S , int Array_D);
 
 // Make necessary changes
 extern char* initialize();
@@ -78,10 +83,17 @@ extern char* matrix_addition(int C_index, int A_index , int B_index);
 // @return char*: A string containing C code to multiply two matrices and store the result in another matrix.
 extern char* matrix_multiplication(int C_index, int A_index , int B_index);
 
-// Make necessary changes
+
+// Takes an array or a matrix, sums all its elements and assign the result to a variable called P_sum.
+// The function checks if the array is 1D or 2D array.
+// @param A_index: The index in the ArrayTable for the array whose average is to be calculated.
+// @return char*: A string containing C code that calculates the sum of the array's elements.
 extern char* reduction_operations_sum();
 
-// Make necessary changes
+// Takes an array or a matrix, sums all its elements and divides its number of elements and assign the result to a variable called P_aver.
+// The function checks if the array is 1D or 2D array.
+// @param A_index: The index in the ArrayTable for the array whose average is to be calculated.
+// @return char*: A string containing C code that calculates the average of the array's elements.
 extern char* reduction_operations_aver();
 
 #endif

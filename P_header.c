@@ -83,7 +83,7 @@ char* read(int array_table_index) {
     return extended;
 }
 
-// Make necessary changes
+// Takes two arrays source and destination,then copies source to destination.
 char* copy(int Array_S , int Array_D) {
     /*for (int i = 0; i < size; i++) {
         destination[i] = source[i];

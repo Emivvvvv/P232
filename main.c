@@ -126,9 +126,9 @@ void process_and_expand_directive() {
     } else if (strcmp(PT.oper, "@print") == 0) {
         strcpy(expanded_line, print());
     } else if (strcmp(PT.oper, "@dotp") == 0) {
-        strcpy(expanded_line, matrix_dot_product(&PT.lhs,find_array_index(&PT.rhs1),find_array_index(&PT.rhs2)));
+        strcpy(expanded_line, matrix_dot_product());
     } else if (strcmp(PT.oper, "@add") == 0) {
-        strcpy(expanded_line, matrix_addition(find_array_index(&PT.lhs),find_array_index(&PT.rhs1),find_array_index(&PT.rhs2)));
+        strcpy(expanded_line, matrix_addition());
     } else if (strcmp(PT.oper, "@mmult") == 0) {
         strcpy(expanded_line, matrix_multiplication());
     } else if (strcmp(PT.oper, "@sum") == 0) {

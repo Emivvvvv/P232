@@ -101,74 +101,15 @@ char* print() {
     return extended;
 }
 
-// Takes two 1D matrices , takes their dot product and assigns it to a integer and environmental variable P_dot
-char* matrix_dot_product(char* C, int A_index , int B_index) {
-    char* extended[1024] = {0};
-
-    struct ArrayTable* A = &AT[A_index];
-    struct ArrayTable* B = &AT[B_index];
-
-    if (A->dim != 1 || B->dim != 1) {
-        return "Error: All arrays must be 1D for array  for dot product.";
-    }
-    if (strcmp(A->size1, B->size1) != 0) {
-        return "Error: Arrays A and B must have the same length for  for dot product.";
-    }
-    sprintf(extended,
-        "for (int i = 0; i < %s; i++) {\n"
-        "\t%s += %s[i] + %s[i];\n"
-        "}\n"
-        "P_dot = %s;",
-        A->size1,
-        C, A->name, B->name,
-        C
-    );
-
+// Make necessary changes
+char* matrix_dot_product() {
+    char* extended = "@dotp";
     return extended;
 }
 
 // Make necessary changes
-char* matrix_addition(int C_index, int A_index , int B_index) {
-    char* extended[1024] = {0};
-
-    struct ArrayTable* A = &AT[A_index];
-    struct ArrayTable* B = &AT[B_index];
-    struct ArrayTable* C = &AT[C_index];
-
-    if (A->dim == 1 && B->dim == 1 && C->dim == 1) {
-       if ((strcmp(A->size1, B->size1) != 0) ||
-            (strcmp(A->size1, B->size1) != 0) ||
-            (strcmp(A->size1, C->size1) != 0)) {
-        return "Error: Arrays A , B and C must have the same length for array addition.";
-        }
-       sprintf(extended,
-        "for (int i = 0; i < %s; i++) {\n"
-        "\t%s[i] = %s[i] + %s[i];\n"
-        "}\n",
-        A->size1,
-        C->name, A->name, B->name
-        ); 
-    }
-    else if (A->dim == 2 && B->dim == 2 && C->dim == 2){
-        if ((strcmp(A->size1, B->size1) != 0) ||
-            (strcmp(A->size1, C->size1) != 0) ||
-            (strcmp(A->size2, B->size2) != 0) ||
-            (strcmp(A->size2, C->size2) != 0)) {
-        return "Error: Arrays A , B and C must have the same length for array addition.";
-        }
-        sprintf(extended,
-        "for (int i = 0; i < %s; i++) {\n"
-        "\tfor(int j = 0; j < %s; j++){\n"
-        "\t\t%s[i][j] = %s[i][j] + %s[i][j];\n"
-        "\t}\n"
-        "}\n",
-        A->size1,
-        A->size2,
-        C->name, A->name, B->name
-        ); 
-    } else {
-        return "Error: All arrays must have the same dimensions for array addition.";
-    }
+char* matrix_addition() {
+    char* extended = "@add";
     return extended;
 }
 

@@ -257,14 +257,13 @@ char* reduction_operations_aver(int A_index) {
 
         sprintf(extended,
         "P_aver = 0;\n"
-        "totalElements = %s;\n"
         "for(int i = 0; i < %s; i++){\n"
         "\tP_aver += %s[i];\n"
         "}\n"
-        "P_aver /= totalElements;\n",
+        "P_aver /= %s;\n",
         A->size1,
-        A->size1,
-        A->name);
+        A->name,
+        A->size1);
 
     }
     else if(A->dim == 2) {
@@ -279,9 +278,9 @@ char* reduction_operations_aver(int A_index) {
         "P_aver /= (%s * %s);\n",
         A->size1,
         A->size2,
+        A->name,
         A->size1,
-        A->size2,
-        A->name);
+        A->size2);
 
     }
     else {

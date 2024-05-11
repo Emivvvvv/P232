@@ -11,3 +11,6 @@ P_header.o: P_header.c P_header.h
 
 clean:
 	rm -f *.o p232.out
+
+clean-all:
+	rm -f *.o p232.out expanded.c

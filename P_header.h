@@ -55,7 +55,10 @@ extern char* copy(int Array_S , int Array_D);
 // Make necessary changes
 extern char* initialize();
 
-// Make necessary changes
+// This code represents a C function that prints an array with a specific size and value. The function is called with the index of the array table. 
+// The function handles both one-dimensional and two-dimensional arrays, depending on the array's dimension in the array table.
+// @param array_table_index : The index of array in the array table which contains the array's name, dimensions, and size specifications.
+// @return char*: A string containing the C code necessary to perform initializing value to array.
 extern char* print();
 
 // Calculates the dot product of two one-dimensional arrays, given their indices in the array table,

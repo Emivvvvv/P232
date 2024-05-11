@@ -127,7 +127,7 @@ void process_and_expand_directive() {
     } else if (strcmp(PT.oper, "@init") == 0) {
         strcpy(expanded_line, initialize());
     } else if (strcmp(PT.oper, "@print") == 0) {
-        strcpy(expanded_line, print());
+        strcpy(expanded_line, print(find_array_index(PT.lhs)));
     } else if (strcmp(PT.oper, "@dotp") == 0) {
         strcpy(expanded_line, matrix_dot_product(find_array_index(PT.rhs1),find_array_index(PT.rhs2)));
     } else if (strcmp(PT.oper, "@add") == 0) {

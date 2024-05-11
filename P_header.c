@@ -9,7 +9,7 @@
 
 // Creates a C declaration for an integer array from array table data.
 char* declaration(int array_table_index) {
-    char extended[1024];
+    char* extended = malloc(1024);
 
     if (AT[array_table_index].dim == 1) {
         sprintf(extended, "int %s[%s];", AT[array_table_index].name, AT[array_table_index].size1);
@@ -22,7 +22,7 @@ char* declaration(int array_table_index) {
 
 // Reads array elements from a file into the specified array from the array table.
 char* read(int array_table_index) {
-    char extended[1024] = {0};
+    char* extended = malloc(1024);
 
     char filename[3];
     filename[0] = PT.rhs1;
@@ -96,7 +96,7 @@ char* copy(int Array_S , int Array_D) {
         }
     }  
         */
-    char* extended[1024] = {0};
+    char* extended = malloc(1024);
 
     struct ArrayTable* A = &AT[Array_S];
     struct ArrayTable* B = &AT[Array_D];
@@ -140,7 +140,7 @@ char* copy(int Array_S , int Array_D) {
 
 //This code represents a C function that initializes a table array with a specific size and value. The function is called with the index of the array table and the initialization value.
 char* initialize(int array_table_index, char value) {
-    char extended[1024];
+    char* extended = malloc(1024);
 
     if (AT[array_table_index].dim == 1) {
         
@@ -168,7 +168,7 @@ char* initialize(int array_table_index, char value) {
 
 // This code represents a C function that prints an array with a specific size and value. The function is called with the index of the array table. 
 char* print(int array_table_index) {
-    char* extended[1024] = {0};
+    char* extended = malloc(1024);
 
     struct ArrayTable* A = &AT[array_table_index];
     
@@ -205,7 +205,7 @@ char* print(int array_table_index) {
 
 // Takes two 1D matrices, calculates their dot product and assigns it to the environmental variable P_dot
 char* matrix_dot_product(int A_index , int B_index) {
-    char* extended[1024] = {0};
+    char* extended = malloc(1024);
 
     struct ArrayTable* A = &AT[A_index];
     struct ArrayTable* B = &AT[B_index];
@@ -230,7 +230,7 @@ char* matrix_dot_product(int A_index , int B_index) {
 
 // Takes two matrices, adds them accordingly and assigns the result to another matrix
 char* matrix_addition(int C_index, int A_index , int B_index) {
-    char* extended[1024] = {0};
+    char* extended = malloc(1024);
 
     struct ArrayTable* A = &AT[A_index];
     struct ArrayTable* B = &AT[B_index];
@@ -276,7 +276,7 @@ char* matrix_addition(int C_index, int A_index , int B_index) {
 
 // Takes two matrices, multiplies them accordingly and assigns the result to another matrix
 char* matrix_multiplication(int C_index, int A_index , int B_index) {
-    char* extended[1024] = {0};
+    char* extended = malloc(1024);
 
     struct ArrayTable* A = &AT[A_index];
     struct ArrayTable* B = &AT[B_index];
@@ -314,7 +314,7 @@ char* matrix_multiplication(int C_index, int A_index , int B_index) {
 
 // Takes an array or a matrix, sums all its elements and assign the result to a variable called P_sum.
 char* reduction_operations_sum(int A_index) {
-    char* extended[1024] = {0};
+    char* extended = malloc(1024);
 
     struct ArrayTable* A = &AT[A_index];
 
@@ -351,7 +351,7 @@ char* reduction_operations_sum(int A_index) {
 
 // Takes an array or a matrix, sums all its elements and divides its number of elements and assign the result to a variable called P_aver.
 char* reduction_operations_aver(int A_index) {
-    char* extended[1024] = {0};
+    char* extended = malloc(1024);
 
     struct ArrayTable* A = &AT[A_index];
 

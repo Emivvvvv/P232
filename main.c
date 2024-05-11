@@ -25,14 +25,22 @@ int line_left_space_count = 0;
 FILE* source_file = NULL;
 FILE* expanded_file = NULL;
 
-int main() {
-    source_file = fopen("myCprog.c", "r");
+int main(int argc, char *argv[]) {
+    if (argc != 2) {
+        printf("Usage: %s <filename>.c\n", argv[0]);
+        return 1;
+    }
+
+    char* filename = argv[1];
+
+    source_file = fopen(filename, "r");
     expanded_file = fopen("expanded.c", "w");
 
-    if (!source_file || !expanded_file) {
-        printf("%p\n", source_file);
-        printf("%p\n", expanded_file);
-        printf("Error opening files!\n");
+    if (!source_file) {
+        printf("Couldn't open source file \"%s\"\n", filename);
+        return 1;
+    } else if (!expanded_file) {
+        printf("Error at opening expanded file!\n");
         return 1;
     }
 

@@ -140,30 +140,37 @@ char* copy(int Array_S , int Array_D) {
 
 //This code represents a C function that initializes a table array with a specific size and value. The function is called with the index of the array table and the initialization value.
 char* initialize(int array_table_index, char value) {
-   
     char extended[1024];
 
     if (AT[array_table_index].dim == 1) {
         
-        sprintf(extended, "for (int i = 0; i < %s; i++) {\n\t%s[i] = %c;\n}\n",
-                AT[array_table_index].size1, AT[array_table_index].name, value);
+        sprintf(extended, "for (int i = 0; i < %s; i++) {\n"
+                          "\t%s[i] = %c;\n"
+                          "}\n",
+                          AT[array_table_index].size1,
+                          AT[array_table_index].name,
+                          value);
     } else {
        
-        sprintf(extended, "for (int i = 0; i < %s; i++) {\n\tfor (int j = 0; j < %s; j++) {\n\t\t%s[i][j] = %c;\n\t}\n}\n",
-                AT[array_table_index].size1, AT[array_table_index].size2, AT[array_table_index].name, value);
+        sprintf(extended, "for (int i = 0; i < %s; i++) {\n"
+                          "\tfor (int j = 0; j < %s; j++) {\n"
+                          "\t\t%s[i][j] = %c;\n"
+                          "\t}\n"
+                          "}\n",
+                          AT[array_table_index].size1,
+                          AT[array_table_index].size2,
+                          AT[array_table_index].name,
+                          value);
     }
 
-   
     return extended;
 }
 
 // This code represents a C function that prints an array with a specific size and value. The function is called with the index of the array table. 
 char* print(int array_table_index) {
-     char* extended[1024] = {0};
+    char* extended[1024] = {0};
 
-    
     struct ArrayTable* A = &AT[array_table_index];
-
     
     if(A->dim == 1)
     sprintf(extended,
@@ -175,26 +182,24 @@ char* print(int array_table_index) {
         A->size1,
         A->name,
         A->name,
-        A->size1
-);
- 
-    else if (A->dim == 2) {
+        A->size1);
+    else if (A->dim == 2)
     sprintf(extended,
         "printf(\"[\");\n" 
         "for (int i = 0; i < %s; i++) {\n"
         "\tprintf(\"[\");\n" 
         "\tfor (int j = 0; j < %s-1; j++) {\n"
-        "\t\tprintf(\"%%d,\", %s[i][j]);\n"//ASSUME ARRAY IS INT ARRAY
+        "\t\tprintf(\"%%d, \", %s[i][j]);\n" //ASSUME ARRAY IS INT ARRAY
         "\t}\n"
         "\tprintf(\"%%d]\", %s[i][%s-1]);\n" 
-        "}\n",
+        "}\n"
+        "printf(\"]\");\n",
         A->size1,
         A->size2,
         A->name,
         A->name,
-        A->size2
-    );
-}
+        A->size2);
+
     return extended;
 }
 

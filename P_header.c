@@ -150,11 +150,11 @@ char* print(int array_table_index) {
     
     if(A->dim == 1)
     sprintf(extended,
-        "\tprintf(\"[\");\n" 
+        "printf(\"[\");\n" 
         "for (int i = 0; i < %s-1; i++) {\n"
         "\tprintf(\"%%d, \", %s[i]);\n" 
         "}\n"
-        "\tprintf(\"%%d]\", %s[%s-1]);\n" ,
+        "printf(\"%%d]\", %s[%s-1]);\n" ,
         A->size1,
         A->name,
         A->name,

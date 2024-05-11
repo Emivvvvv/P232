@@ -9,5 +9,4 @@ add_executable(P232
         main.c
         P_header.c
         P_header.h
-        utils.c
-        utils.h)
+)

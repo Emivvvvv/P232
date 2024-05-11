@@ -6,7 +6,7 @@
  */
 
 #include "P_header.h"
-#include "utils.h"
+
 
 // Function declarations
 void assign_token(const char *token, char *target);
@@ -14,7 +14,10 @@ void parse_line(char* line);
 void enter_array_table();
 void process_and_expand_directive();
 void print_with_spaces(const char* expanded_line);
-int find_array_index(const char array_name);
+int find_array_index(char array_name);
+char* ltrim(char* s, int* left_trim_space_count);
+char *rtrim(char* s);
+char* trim(char* s, int* left_trim_space_count);
 
 int array_table_index = 0;
 int line_left_space_count = 0;
@@ -124,7 +127,7 @@ void process_and_expand_directive() {
     } else if (strcmp(PT.oper, "@init") == 0) {
         strcpy(expanded_line, initialize(find_array_index(PT.lhs),PT.rhs1));
     } else if (strcmp(PT.oper, "@print") == 0) {
-        strcpy(expanded_line, print());
+        strcpy(expanded_line, print(find_array_index(PT.lhs)));
     } else if (strcmp(PT.oper, "@dotp") == 0) {
         strcpy(expanded_line, matrix_dot_product(find_array_index(PT.rhs1),find_array_index(PT.rhs2)));
     } else if (strcmp(PT.oper, "@add") == 0) {
@@ -176,4 +179,27 @@ int find_array_index(const char array_name) {
     }
     printf("Undefined Array: %c", array_name);
     return -1; 
+}
+
+char* ltrim(char* s, int* left_trim_space_count)
+{
+    *left_trim_space_count = 0;
+    while(isspace(*s)) {
+        (*left_trim_space_count)++;
+        s++;
+    }
+    return s;
+}
+
+char *rtrim(char* s)
+{
+    char* back = s + strlen(s);
+    while(isspace(*--back));
+    *(back+1) = '\0';
+    return s;
+}
+
+char* trim(char* s, int* left_trim_space_count)
+{
+    return rtrim(ltrim(s, left_trim_space_count));
 }

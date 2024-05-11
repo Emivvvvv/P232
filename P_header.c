@@ -150,24 +150,32 @@ char* print(int array_table_index) {
     
     if(A->dim == 1)
     sprintf(extended,
-        "for (int i = 0; i < %d; i++) {\n"
-        "\tprintf(\"%%d \", %s[i]);\n" 
-        "}\n",
+        "\tprintf(\"[\");\n" 
+        "for (int i = 0; i < %s-1; i++) {\n"
+        "\tprintf(\"%%d, \", %s[i]);\n" 
+        "}\n"
+        "\tprintf(\"%%d]\", %s[%s-1]);\n" ,
         A->size1,
-        A->name
+        A->name,
+        A->name,
+        A->size1
 );
  
     else if (A->dim == 2) {
     sprintf(extended,
-        "for (int i = 0; i < %d; i++) {\n"
-        "\tfor (int j = 0; j < %d; j++) {\n"
-        "\t\tprintf(\"%%d \", %s[i][j]);\n"//ASSUME ARRAY IS INT ARRAY
+        "printf(\"[\");\n" 
+        "for (int i = 0; i < %s; i++) {\n"
+        "\tprintf(\"[\");\n" 
+        "\tfor (int j = 0; j < %s-1; j++) {\n"
+        "\t\tprintf(\"%%d,\", %s[i][j]);\n"//ASSUME ARRAY IS INT ARRAY
         "\t}\n"
-        "\tprintf(\"\\n\");\n" 
+        "\tprintf(\"%%d]\", %s[i][%s-1]);\n" 
         "}\n",
         A->size1,
         A->size2,
-        A->name
+        A->name,
+        A->name,
+        A->size2
     );
 }
 

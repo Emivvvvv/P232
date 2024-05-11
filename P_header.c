@@ -134,11 +134,25 @@ char* copy(int Array_S , int Array_D) {
     return extended;
 }
 
-// Make necessary changes
-char* initialize() {
-    char* extended = "@init";
+
+char* initialize(int array_table_index, char value) {
+   
+    char extended[1024];
+
+    if (AT[array_table_index].dim == 1) {
+        
+        sprintf(extended, "for (int i = 0; i < %s; i++) {\n\t%s[i] = %d;\n}\n",
+                AT[array_table_index].size1, AT[array_table_index].name, value);
+    } else {
+       
+        sprintf(extended, "for (int i = 0; i < %s; i++) {\n\tfor (int j = 0; j < %s; j++) {\n\t\t%s[i][j] = %d;\n\t}\n}\n",
+                AT[array_table_index].size1, AT[array_table_index].size2, AT[array_table_index].name, value);
+    }
+
+   
     return extended;
 }
+
 
 // Make necessary changes
 char* print() {

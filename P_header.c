@@ -118,7 +118,10 @@ char* copy(int Array_S , int Array_D) {
                 A->name
         );
  
-    else if (A->dim == 2)
+    else if (A->dim == 2){
+        if (strcmp(A->size2, B->size2)) {
+        return "Error: Arrays must have the same length.";
+        }
         sprintf(extended,
             "for (int i = 0; i < %s; i++) {\n"
             "\tfor (int j = 0; j < %s; j++) {\n"
@@ -129,7 +132,7 @@ char* copy(int Array_S , int Array_D) {
             A->size2,
             B->name, 
             A->name
-        );
+        );}
 
     return extended;
 }

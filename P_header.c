@@ -7,7 +7,14 @@
  * Yeditepe University CSE232 course group term project.
  */
 
-// Creates a C declaration for an integer array from array table data.
+// Define global variables
+int P_dot;
+int P_sum;
+int P_aver;
+
+struct ArrayTable AT[20]; // max. 20 arrays
+struct ParseTable PT; // Creates a C declaration for an integer array from array table data.
+
 char* declaration(int array_table_index) {
     char* extended = malloc(1024);
 

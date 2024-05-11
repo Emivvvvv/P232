@@ -22,7 +22,7 @@ struct ArrayTable {
     char size1[10]; // size of dimension 1
     char size2[10]; // size of dimension 2
 };
-struct ArrayTable AT[20]; // max. 20 arrays
+extern struct ArrayTable AT[20]; // max. 20 arrays
 
 struct ParseTable {
     char oper[10]; // @read, @copy, etc.
@@ -30,7 +30,7 @@ struct ParseTable {
     char rhs1; // first array on the right hand side
     char rhs2; // second array on the right hand side
 };
-struct ParseTable PT;
+extern struct ParseTable PT;
 
 // Generates a C language declaration for an integer array based on the specification provided in the array table.
 // Both 1D and 2D array generation is possible.

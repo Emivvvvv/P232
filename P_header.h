@@ -12,9 +12,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int P_dot;
-int P_sum;
-int P_aver;
+extern int P_dot;
+extern int P_sum;
+extern int P_aver;
 
 struct ArrayTable {
     char name[10];
@@ -63,7 +63,7 @@ extern char* initialize(int array_table_index, char value);
 // The function handles both one-dimensional and two-dimensional arrays, depending on the array's dimension in the array table.
 // @param array_table_index : The index of array in the array table which contains the array's name, dimensions, and size specifications.
 // @return char*: A string containing the C code necessary to perform initializing value to array.
-extern char* print(int array_table_index);
+extern char* print();
 
 // Calculates the dot product of two one-dimensional arrays, given their indices in the array table,
 // and assigns the result to the environmental variable `P_dot`.
@@ -95,12 +95,12 @@ extern char* matrix_multiplication(int C_index, int A_index , int B_index);
 // The function checks if the array is 1D or 2D array.
 // @param A_index: The index in the ArrayTable for the array whose average is to be calculated.
 // @return char*: A string containing C code that calculates the sum of the array's elements.
-extern char* reduction_operations_sum(int A_index);
+extern char* reduction_operations_sum();
 
 // Takes an array or a matrix, sums all its elements and divides its number of elements and assign the result to a variable called P_aver.
 // The function checks if the array is 1D or 2D array.
 // @param A_index: The index in the ArrayTable for the array whose average is to be calculated.
 // @return char*: A string containing C code that calculates the average of the array's elements.
-char* reduction_operations_aver(int A_index);
+extern char* reduction_operations_aver();
 
 #endif

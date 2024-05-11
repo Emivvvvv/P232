@@ -30,54 +30,33 @@ char* read(int array_table_index) {
     filename[2] = '\0';
 
     if (AT[array_table_index].dim == 1) {
-        int array_size = atoi(AT[array_table_index].size1);
-        if (array_size <= 0) {
-            fprintf(stderr, "Invalid array size.\n");
-            return NULL;
-        }
-
-        int result = snprintf(extended, sizeof(extended),
-                              "FILE* file = fopen(\"%s\", \"r\");\n"
-                              "int num, count = 0;\n"
-                              "while (count < %d && fscanf(file, \"%%d\", &num) == 1) {\n"
-                              "\t%s[count++] = num;\n"
-                              "}\n"
-                              "fclose(file);\n",
-                              filename,
-                              array_size,
-                              AT[array_table_index].name
+        sprintf(extended,
+            "FILE* file = fopen(\"%s\", \"r\");\n"
+            "int num, count = 0;\n"
+            "while (count < %s && fscanf(file, \"%%d\", &num) == 1) {\n"
+            "\t%s[count++] = num;\n"
+            "}\n"
+            "fclose(file);\n",
+            "filename",
+            AT[array_table_index].size1,
+            AT[array_table_index].name
         );
-
-        if (result < 0 || result >= sizeof(extended)) {
-            return "Error: Something went wrong while creating the extended string.";
-        }
     } else {
-        int rows = atoi(AT[array_table_index].size1);
-        int columns = atoi(AT[array_table_index].size2);
-        if (rows <= 0 || columns <= 0) {
-            fprintf(stderr, "Invalid array size.\n");
-            return NULL;
-        }
-
-        int result = snprintf(extended, sizeof(extended),
-                              "FILE* file = fopen(\"%s\", \"r\");\n"
-                              "int num, count = 0;\n"
-                              "for (int i = 0; i < %d && count < %d * %d; i++) {\n"
-                              "\tfor (int j = 0; j < %d && fscanf(file, \"%%d\", &num) == 1; j++) {\n"
-                              "\t\t%s[i][j] = num;\n"
-                              "\t\tcount++;\n"
-                              "\t}\n"
-                              "}\n"
-                              "fclose(file);\n",
-                              filename,
-                              rows, rows, columns,
-                              columns,
-                              AT[array_table_index].name
+        sprintf(extended,
+            "FILE* file = fopen(\"%s\", \"r\");\n"
+            "int num, count = 0;\n"
+            "for (int i = 0; i < %s && count < %s * %s; i++) {\n"
+            "\tfor (int j = 0; j < %s && fscanf(file, \"%%d\", &num) == 1; j++) {\n"
+            "\t\t%s[i][j] = num;\n"
+            "\t\tcount++;\n"
+            "\t}\n"
+            "}\n"
+            "fclose(file);\n",
+            filename,
+            AT[array_table_index].size1, AT[array_table_index].size1, AT[array_table_index].size2,
+            AT[array_table_index].size2,
+            AT[array_table_index].name
         );
-
-        if (result < 0 || result >= sizeof(extended)) {
-            return "Error: Something went wrong while creating the extended string.";
-        }
     }
 
     return extended;

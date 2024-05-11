@@ -140,9 +140,37 @@ char* initialize() {
     return extended;
 }
 
-// Make necessary changes
-char* print() {
-    char* extended = "@print";
+// This code represents a C function that prints an array with a specific size and value. The function is called with the index of the array table. 
+char* print(int array_table_index) {
+     char* extended[1024] = {0};
+
+    
+    struct ArrayTable* A = &AT[array_table_index];
+
+    
+    if(A->dim == 1)
+    sprintf(extended,
+        "for (int i = 0; i < %d; i++) {\n"
+        "\tprintf(\"%%d \", %s[i]);\n" 
+        "}\n",
+        A->size1,
+        A->name
+);
+ 
+    else if (A->dim == 2) {
+    sprintf(extended,
+        "for (int i = 0; i < %d; i++) {\n"
+        "\tfor (int j = 0; j < %d; j++) {\n"
+        "\t\tprintf(\"%%d \", %s[i][j]);\n"//ASSUME ARRAY IS INT ARRAY
+        "\t}\n"
+        "\tprintf(\"\\n\");\n" 
+        "}\n",
+        A->size1,
+        A->size2,
+        A->name
+    );
+}
+
     return extended;
 }
 

@@ -142,7 +142,7 @@ char* initialize(int array_table_index, char value) {
 
     if (AT[array_table_index].dim == 1) {
         
-        sprintf(extended, "for (int i = 0; i < %s; i++) {\n\t%s[i] = %d;\n}\n",
+        sprintf(extended, "for (int i = 0; i < %s; i++) {\n\t%s[i] = %c;\n}\n",
                 AT[array_table_index].size1, AT[array_table_index].name, value);
     } else {
        

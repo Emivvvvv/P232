@@ -26,10 +26,12 @@ FILE* source_file = NULL;
 FILE* expanded_file = NULL;
 
 int main() {
-    source_file = fopen("../myCprog.c", "r");
-    expanded_file = fopen("../expanded.c", "w");
+    source_file = fopen("myCprog.c", "r");
+    expanded_file = fopen("expanded.c", "w");
 
     if (!source_file || !expanded_file) {
+        printf("%p\n", source_file);
+        printf("%p\n", expanded_file);
         printf("Error opening files!\n");
         return 1;
     }

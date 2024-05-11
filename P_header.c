@@ -137,9 +137,23 @@ char* copy(int Array_S , int Array_D) {
     return extended;
 }
 
-// Make necessary changes
-char* initialize() {
-    char* extended = "@init";
+
+//This code represents a C function that initializes a table array with a specific size and value. The function is called with the index of the array table and the initialization value.
+char* initialize(int array_table_index, char value) {
+   
+    char extended[1024];
+
+    if (AT[array_table_index].dim == 1) {
+        
+        sprintf(extended, "for (int i = 0; i < %s; i++) {\n\t%s[i] = %c;\n}\n",
+                AT[array_table_index].size1, AT[array_table_index].name, value);
+    } else {
+       
+        sprintf(extended, "for (int i = 0; i < %s; i++) {\n\tfor (int j = 0; j < %s; j++) {\n\t\t%s[i][j] = %c;\n\t}\n}\n",
+                AT[array_table_index].size1, AT[array_table_index].size2, AT[array_table_index].name, value);
+    }
+
+   
     return extended;
 }
 
@@ -181,7 +195,6 @@ char* print(int array_table_index) {
         A->size2
     );
 }
-
     return extended;
 }
 

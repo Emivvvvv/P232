@@ -52,8 +52,12 @@ extern char* read(int array_table_index);
 // @return char*: A string containing the C code necessary to perform copying source array to destination array.
 extern char* copy(int Array_S , int Array_D);
 
-// Make necessary changes
-extern char* initialize();
+// This code represents a C function that initializes a table array with a specific size and value. The function is called with the index of the array table and the initialization value.
+// The function handles both one-dimensional and two-dimensional arrays, depending on the array's dimension in the array table.
+// @param array_table_index : The index of array in the array table which contains the array's name, dimensions, and size specifications.
+// @param value: The value that will be assigned to array elements.
+// @return char*: A string containing the C code necessary to perform initializing value to array.
+extern char* initialize(int array_table_index, char value);
 
 // This code represents a C function that prints an array with a specific size and value. The function is called with the index of the array table. 
 // The function handles both one-dimensional and two-dimensional arrays, depending on the array's dimension in the array table.

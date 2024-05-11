@@ -44,7 +44,7 @@ extern char* declaration(int array_table_index);
 // @return char*: A string containing the C code necessary to perform the file reading and array population.
 extern char* read(int array_table_index);
 
-// Assigns one array's information to another array. 
+// Assigns one array's information to another array.
 //Their sizes and dimensions must be equal. If arrays have different dimensions or sizes, return an error string.
 // The function handles both one-dimensional and two-dimensional arrays, depending on the array's dimension in the array table.
 // @param Array_S: The index of source array in the array table which contains the array's name, dimensions, and size specifications.
@@ -59,11 +59,11 @@ extern char* copy(int Array_S , int Array_D);
 // @return char*: A string containing the C code necessary to perform initializing value to array.
 extern char* initialize(int array_table_index, char value);
 
-// This code represents a C function that prints an array with a specific size and value. The function is called with the index of the array table. 
+// This code represents a C function that prints an array with a specific size and value. The function is called with the index of the array table.
 // The function handles both one-dimensional and two-dimensional arrays, depending on the array's dimension in the array table.
 // @param array_table_index : The index of array in the array table which contains the array's name, dimensions, and size specifications.
 // @return char*: A string containing the C code necessary to perform initializing value to array.
-extern char* print();
+extern char* print(int array_table_index);
 
 // Calculates the dot product of two one-dimensional arrays, given their indices in the array table,
 // and assigns the result to the environmental variable `P_dot`.
@@ -95,12 +95,12 @@ extern char* matrix_multiplication(int C_index, int A_index , int B_index);
 // The function checks if the array is 1D or 2D array.
 // @param A_index: The index in the ArrayTable for the array whose average is to be calculated.
 // @return char*: A string containing C code that calculates the sum of the array's elements.
-extern char* reduction_operations_sum();
+extern char* reduction_operations_sum(int A_index);
 
 // Takes an array or a matrix, sums all its elements and divides its number of elements and assign the result to a variable called P_aver.
 // The function checks if the array is 1D or 2D array.
 // @param A_index: The index in the ArrayTable for the array whose average is to be calculated.
 // @return char*: A string containing C code that calculates the average of the array's elements.
-extern char* reduction_operations_aver();
+extern char* reduction_operations_aver(int A_index);
 
 #endif

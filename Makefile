@@ -1,7 +1,4 @@
-all: run
-
-run: p232
-	./p232.out
+all: p232
 
 p232: main.o P_header.o
 	gcc -o p232.out main.o P_header.o

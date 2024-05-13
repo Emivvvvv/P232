@@ -122,28 +122,28 @@ char* copy(int Array_S , int Array_D) {
 
 
 //This code represents a C function that initializes a table array with a specific size and value. The function is called with the index of the array table and the initialization value.
-char* initialize(int array_table_index, char value) {
+char* initialize(int array_table_index) {
     char* extended = malloc(1024);
 
     if (AT[array_table_index].dim == 1) {
         
         sprintf(extended, "for (int i = 0; i < %s; i++) {\n"
-                          "\t%s[i] = %c;\n"
+                          "\t%s[i] = %s;\n"
                           "}\n",
                           AT[array_table_index].size1,
                           AT[array_table_index].name,
-                          value);
+                          PT.rhs1);
     } else {
        
         sprintf(extended, "for (int i = 0; i < %s; i++) {\n"
                           "\tfor (int j = 0; j < %s; j++) {\n"
-                          "\t\t%s[i][j] = %c;\n"
+                          "\t\t%s[i][j] = %s;\n"
                           "\t}\n"
                           "}\n",
                           AT[array_table_index].size1,
                           AT[array_table_index].size2,
                           AT[array_table_index].name,
-                          value);
+                          PT.rhs1);
     }
 
     return extended;
@@ -230,7 +230,7 @@ char* matrix_addition(int C_index, int A_index , int B_index) {
         "\t%s[i] = %s[i] + %s[i];\n"
         "}\n",
         A->size1,
-        C->name[0], A->name[0], B->name[0]
+        C->name, A->name, B->name
         ); 
     }
     else if (A->dim == 2 && B->dim == 2 && C->dim == 2){
@@ -280,11 +280,11 @@ char* matrix_multiplication(int C_index, int A_index , int B_index) {
             "\t\t}\n"
             "\t}\n"
             "}\n",
-            C->size1 ,
-            C->size2 , 
-            C->name ,
+            C->size1,
+            C->size2,
+            C->name,
             A->size2,
-            C->name , A->name , B->name
+            C->name, A->name, B->name
             );
         }
     

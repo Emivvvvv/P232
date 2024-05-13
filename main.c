@@ -26,15 +26,17 @@ FILE* source_file = NULL;
 FILE* expanded_file = NULL;
 
 int main(int argc, char *argv[]) {
-    if (argc != 2) {
-        printf("Usage: %s <filename>.c\n", argv[0]);
-        return 1;
-    }
+//    if (argc != 2) {
+//        printf("Usage: %s <filename>.c\n", argv[0]);
+//        return 1;
+//    }
 
     char* filename = argv[1];
 
+    filename = "/Users/emivvvvv/Documents/GitHub/P232/myCprog.c";
+
     source_file = fopen(filename, "r");
-    expanded_file = fopen("expanded.c", "w");
+    expanded_file = fopen("/Users/emivvvvv/Documents/GitHub/P232/expanded.c", "w");
 
     if (!source_file) {
         printf("Couldn't open source file \"%s\"\n", filename);
@@ -97,7 +99,7 @@ void process_and_expand_directive() {
     } else if (strcmp(PT.oper, "@copy") == 0) {
         strcpy(expanded_line, copy(find_array_index(PT.rhs1),find_array_index(PT.lhs)));
     } else if (strcmp(PT.oper, "@init") == 0) {
-        strcpy(expanded_line, initialize(find_array_index(PT.lhs),PT.rhs1));
+        strcpy(expanded_line, initialize(find_array_index(PT.lhs)));
     } else if (strcmp(PT.oper, "@print") == 0) {
         strcpy(expanded_line, print(find_array_index(PT.lhs)));
     } else if (strcmp(PT.oper, "@dotp") == 0) {
@@ -146,7 +148,7 @@ void print_with_spaces(const char* expanded_line) {
 //Find the AT index that has given array name
 int find_array_index(const char* array_name) {
     for (int i = 0; i < 20 && AT[i].name[0] != '\0'; i++) {
-        if (strcmp(AT[i].name, array_name)) {
+        if (strcmp(AT[i].name, array_name) != 0) {
             return i; 
         }
     }

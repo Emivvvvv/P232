@@ -31,11 +31,6 @@ char* declaration(int array_table_index) {
 char* read(int array_table_index) {
     char* extended = malloc(1024);
 
-    char filename[3];
-    filename[0] = PT.rhs1;
-    filename[1] = PT.rhs2;
-    filename[2] = '\0';
-
     if (AT[array_table_index].dim == 1) {
         sprintf(extended,
             "FILE* file = fopen(\"%s\", \"r\");\n"
@@ -44,7 +39,7 @@ char* read(int array_table_index) {
             "\t%s[count++] = num;\n"
             "}\n"
             "fclose(file);\n",
-            "filename",
+            PT.rhs1,
             AT[array_table_index].size1,
             AT[array_table_index].name
         );
@@ -59,8 +54,10 @@ char* read(int array_table_index) {
             "\t}\n"
             "}\n"
             "fclose(file);\n",
-            filename,
-            AT[array_table_index].size1, AT[array_table_index].size1, AT[array_table_index].size2,
+            PT.rhs1,
+            AT[array_table_index].size1,
+            AT[array_table_index].size1,
+            AT[array_table_index].size2,
             AT[array_table_index].size2,
             AT[array_table_index].name
         );

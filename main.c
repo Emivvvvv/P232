@@ -14,7 +14,7 @@ void parse_line(char* line);
 void enter_array_table();
 void process_and_expand_directive();
 void print_with_spaces(const char* expanded_line);
-int find_array_index(char array_name);
+int find_array_index(const char* array_name);
 char* ltrim(char* s, int* left_trim_space_count);
 char *rtrim(char* s);
 char* trim(char* s, int* left_trim_space_count);
@@ -51,9 +51,8 @@ int main(int argc, char *argv[]) {
 
         if (trimmed_line[0] == '@') {
             parse_line(line);
-            if (strcmp(PT.oper, "@int") == 0 || strcmp(PT.oper, "@int1") == 0) {
+            if (strcmp(PT.oper, "@int") == 0)
                 enter_array_table();
-            }
             process_and_expand_directive();
         } else {
             fprintf(expanded_file, "%s\n", line);
@@ -69,58 +68,21 @@ int main(int argc, char *argv[]) {
 // Parse the line and fill the Parse Table
 void parse_line(char* line) {
     strcpy(PT.oper, strtok(line, " (,)<=.+*"));
-
-    // We assume there is no syntax error.
-    // if there is no token, we assing it to 0.
-    char* lhs =strtok(NULL, " (,)<=.+*");
-    assign_token(lhs, &PT.lhs);
-
-    char* rhs1 =strtok(NULL, " (,)<=.+*");
-    assign_token(rhs1, &PT.rhs1);
-
-    char* rhs2 =strtok(NULL, " (,)<=.+*");
-    assign_token(rhs2, &PT.rhs2);
-
-    if (strcmp(PT.oper, "@read") == 0 || ((strcmp(PT.oper, "@int") == 0 && rhs2 == NULL))) {
-        if (strcmp(PT.oper, "@int") == 0) {
-            strcat(PT.oper, "1");
-        }
-        PT.rhs1 = rhs1[0];
-        PT.rhs2 = rhs1[1];
-    }
-}
-
-void assign_token(const char *token, char *target) {
-    if (token == NULL) {
-        *target = '\0'; // Assign null character if token is NULL
-    } else {
-        *target = *token; // Assign first character of the token
-    }
+    strcpy(PT.lhs, strtok(NULL, " (,)<=.+*"));
+    strcpy(PT.rhs1, strtok(NULL, " (,)<=.+*"));
+    strcpy(PT.rhs2, strtok(NULL, " (,)<=.+*"));
 }
 
 void enter_array_table() {
-    AT[array_table_index].name[0] = PT.lhs;
-    AT[array_table_index].name[1] = '\0';
+    strcpy(AT[array_table_index].name, PT.lhs);
+    strcpy(AT[array_table_index].size1, PT.rhs1);
+    strcpy(AT[array_table_index].size2, PT.rhs2);
 
-    if (strcmp(PT.oper, "@int1") == 0) {
+    if (PT.rhs2[0] == '\0') {
         AT[array_table_index].dim = 1;
-
-        AT[array_table_index].size1[0] = PT.rhs1;
-        AT[array_table_index].size1[1] = PT.rhs2;
-        AT[array_table_index].size1[2] = '\0';
-
-        AT[array_table_index].size2[0] = '0';
-        AT[array_table_index].size2[1] = '\0';
     } else {
         AT[array_table_index].dim = 2;
-
-        AT[array_table_index].size1[0] = PT.rhs1;
-        AT[array_table_index].size1[1] = '\0';
-
-        AT[array_table_index].size2[0] = PT.rhs2;
-        AT[array_table_index].size2[1] = '\0';
     }
-
     array_table_index++;
 }
 
@@ -128,7 +90,7 @@ void enter_array_table() {
 void process_and_expand_directive() {
     char expanded_line[2048] = {0};
 
-    if (strcmp(PT.oper, "@int") == 0 || strcmp(PT.oper, "@int1") == 0) {
+    if (strcmp(PT.oper, "@int") == 0) {
         strcpy(expanded_line, declaration(array_table_index - 1));
     } else if (strcmp(PT.oper, "@read") == 0) {
         strcpy(expanded_line, read(find_array_index(PT.lhs)));
@@ -180,14 +142,15 @@ void print_with_spaces(const char* expanded_line) {
         }
     }
 }
+
 //Find the AT index that has given array name
-int find_array_index(const char array_name) {
+int find_array_index(const char* array_name) {
     for (int i = 0; i < 20 && AT[i].name[0] != '\0'; i++) {
-        if (AT[i].name[0] == array_name) {
+        if (strcmp(AT[i].name, array_name)) {
             return i; 
         }
     }
-    printf("Undefined Array: %c", array_name);
+    printf("Undefined Array: %s", array_name);
     return -1; 
 }
 

@@ -31,11 +31,6 @@ char* declaration(int array_table_index) {
 char* read(int array_table_index) {
     char* extended = malloc(1024);
 
-    char filename[3];
-    filename[0] = PT.rhs1;
-    filename[1] = PT.rhs2;
-    filename[2] = '\0';
-
     if (AT[array_table_index].dim == 1) {
         sprintf(extended,
             "FILE* file = fopen(\"%s\", \"r\");\n"
@@ -44,7 +39,7 @@ char* read(int array_table_index) {
             "\t%s[count++] = num;\n"
             "}\n"
             "fclose(file);\n",
-            "filename",
+            PT.rhs1,
             AT[array_table_index].size1,
             AT[array_table_index].name
         );
@@ -59,8 +54,10 @@ char* read(int array_table_index) {
             "\t}\n"
             "}\n"
             "fclose(file);\n",
-            filename,
-            AT[array_table_index].size1, AT[array_table_index].size1, AT[array_table_index].size2,
+            PT.rhs1,
+            AT[array_table_index].size1,
+            AT[array_table_index].size1,
+            AT[array_table_index].size2,
             AT[array_table_index].size2,
             AT[array_table_index].name
         );
@@ -125,28 +122,28 @@ char* copy(int Array_S , int Array_D) {
 
 
 //This code represents a C function that initializes a table array with a specific size and value. The function is called with the index of the array table and the initialization value.
-char* initialize(int array_table_index, char value) {
+char* initialize(int array_table_index) {
     char* extended = malloc(1024);
 
     if (AT[array_table_index].dim == 1) {
         
         sprintf(extended, "for (int i = 0; i < %s; i++) {\n"
-                          "\t%s[i] = %c;\n"
+                          "\t%s[i] = %s;\n"
                           "}\n",
                           AT[array_table_index].size1,
                           AT[array_table_index].name,
-                          value);
+                          PT.rhs1);
     } else {
        
         sprintf(extended, "for (int i = 0; i < %s; i++) {\n"
                           "\tfor (int j = 0; j < %s; j++) {\n"
-                          "\t\t%s[i][j] = %c;\n"
+                          "\t\t%s[i][j] = %s;\n"
                           "\t}\n"
                           "}\n",
                           AT[array_table_index].size1,
                           AT[array_table_index].size2,
                           AT[array_table_index].name,
-                          value);
+                          PT.rhs1);
     }
 
     return extended;
@@ -230,10 +227,10 @@ char* matrix_addition(int C_index, int A_index , int B_index) {
         }
        sprintf(extended,
         "for (int i = 0; i < %s; i++) {\n"
-        "\t%c[i] = %c[i] + %c[i];\n"
+        "\t%s[i] = %s[i] + %s[i];\n"
         "}\n",
         A->size1,
-        C->name[0], A->name[0], B->name[0]
+        C->name, A->name, B->name
         ); 
     }
     else if (A->dim == 2 && B->dim == 2 && C->dim == 2){
@@ -246,12 +243,12 @@ char* matrix_addition(int C_index, int A_index , int B_index) {
         sprintf(extended,
         "for (int i = 0; i < %s; i++) {\n"
         "\tfor(int j = 0; j < %s; j++){\n"
-        "\t\t%c[i][j] = %c[i][j] + %c[i][j];\n"
+        "\t\t%s[i][j] = %s[i][j] + %s[i][j];\n"
         "\t}\n"
         "}\n",
         A->size1,
         A->size2,
-        C->name[0], A->name[0], B->name[0]
+        C->name, A->name, B->name
         ); 
     } else {
         return "Error: All arrays must have the same dimensions for array addition.";
@@ -283,15 +280,16 @@ char* matrix_multiplication(int C_index, int A_index , int B_index) {
             "\t\t}\n"
             "\t}\n"
             "}\n",
-            C->size1 ,
-            C->size2 , 
-            C->name ,
+            C->size1,
+            C->size2,
+            C->name,
             A->size2,
-            C->name , A->name , B->name
+            C->name, A->name, B->name
             );
         }
     
     } else {
+        printf("%s: %d, %s: %d, %s: %d\n", A->name, A->dim,B->name,B->dim,C->name,C->dim);
         return "Error: Arrays A , B and C must have the 2D for array multiplication.";
     }
 

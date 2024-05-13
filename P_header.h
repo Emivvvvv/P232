@@ -26,9 +26,9 @@ extern struct ArrayTable AT[20]; // max. 20 arrays
 
 struct ParseTable {
     char oper[10]; // @read, @copy, etc.
-    char lhs; // array on the left hand side
-    char rhs1; // first array on the right hand side
-    char rhs2; // second array on the right hand side
+    char lhs[10]; // array on the left hand side
+    char rhs1[10]; // first array on the right hand side
+    char rhs2[10]; // second array on the right hand side
 };
 extern struct ParseTable PT;
 
@@ -52,12 +52,11 @@ extern char* read(int array_table_index);
 // @return char*: A string containing the C code necessary to perform copying source array to destination array.
 extern char* copy(int Array_S , int Array_D);
 
-// This code represents a C function that initializes a table array with a specific size and value. The function is called with the index of the array table and the initialization value.
+// This code represents a C function that initializes a table array with right-hand side value of ParseTable. The function is called with the index of the array table.
 // The function handles both one-dimensional and two-dimensional arrays, depending on the array's dimension in the array table.
 // @param array_table_index : The index of array in the array table which contains the array's name, dimensions, and size specifications.
-// @param value: The value that will be assigned to array elements.
 // @return char*: A string containing the C code necessary to perform initializing value to array.
-extern char* initialize(int array_table_index, char value);
+extern char* initialize(int array_table_index);
 
 // This code represents a C function that prints an array with a specific size and value. The function is called with the index of the array table.
 // The function handles both one-dimensional and two-dimensional arrays, depending on the array's dimension in the array table.

@@ -26,9 +26,9 @@ extern struct ArrayTable AT[20]; // max. 20 arrays
 
 struct ParseTable {
     char oper[10]; // @read, @copy, etc.
-    char lhs[10]; // array on the left hand side
-    char rhs1[10]; // first array on the right hand side
-    char rhs2[10]; // second array on the right hand side
+    char lhs[10];
+    char rhs1[10];
+    char rhs2[10];
 };
 extern struct ParseTable PT;
 

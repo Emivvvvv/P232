@@ -18,11 +18,14 @@ struct ParseTable PT; // Creates a C declaration for an integer array from array
 char* declaration(int array_table_index) {
     char* extended = malloc(1024);
 
-    if (AT[array_table_index].dim == 1) {
-        sprintf(extended, "int %s[%s];", AT[array_table_index].name, AT[array_table_index].size1);
-    } else {
-        sprintf(extended, "int %s[%s][%s];", AT[array_table_index].name, AT[array_table_index].size1, AT[array_table_index].size2);
-    }
+    struct ArrayTable* A = &AT[array_table_index];
+
+    if (A->dim == 1 && A->size1[0] == '\0' || A->dim == 2 && (A->size1[0] == '\0' || A->size2[0] == '\0'))
+        return "Error: Arrays size values must be filled.";
+    else if (A->dim == 1)
+        sprintf(extended, "int %s[%s];", A->name, A->size1);
+    else
+        sprintf(extended, "int %s[%s][%s];", A->name, A->size1, A->size2);
 
     return extended;
 }
@@ -31,7 +34,9 @@ char* declaration(int array_table_index) {
 char* read(int array_table_index) {
     char* extended = malloc(1024);
 
-    if (AT[array_table_index].dim == 1) {
+    struct ArrayTable* A = &AT[array_table_index];
+
+    if (A->dim == 1)
         sprintf(extended,
             "FILE* file = fopen(\"%s\", \"r\");\n"
             "int num, count = 0;\n"
@@ -40,10 +45,10 @@ char* read(int array_table_index) {
             "}\n"
             "fclose(file);\n",
             PT.rhs1,
-            AT[array_table_index].size1,
-            AT[array_table_index].name
+            A->size1,
+            A->name
         );
-    } else {
+    else
         sprintf(extended,
             "FILE* file = fopen(\"%s\", \"r\");\n"
             "int num, count = 0;\n"
@@ -61,36 +66,22 @@ char* read(int array_table_index) {
             AT[array_table_index].size2,
             AT[array_table_index].name
         );
-    }
 
     return extended;
 }
 
 // Takes two arrays source and destination,then copies source to destination.
 char* copy(int Array_S , int Array_D) {
-    /*for (int i = 0; i < size; i++) {
-        destination[i] = source[i];
-    }*/
-
-    /*
-        for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < cols; j++) {
-            dest[i][j] = source[i][j];
-        }
-    }  
-        */
     char* extended = malloc(1024);
 
     struct ArrayTable* A = &AT[Array_S];
     struct ArrayTable* B = &AT[Array_D];
 
-    if (A->dim !=  B->dim ) {
+    if (A->dim != B->dim)
         return "Error: Arrays should have same dimension value.";
-    }
-
-    if (strcmp(A->size1, B->size1)) {
+    if (strcmp(A->size1, B->size1) != 0)
         return "Error: Arrays must have the same length.";
-    }
+
     if(A->dim == 1)
         sprintf(extended,
                 "for (int i = 0; i < %s; i++) {\n"
@@ -98,13 +89,12 @@ char* copy(int Array_S , int Array_D) {
                 "}\n",
                 A->size1,
                 B->name, 
-                A->name
-        );
+                A->name);
  
-    else if (A->dim == 2){
-        if (strcmp(A->size2, B->size2)) {
-        return "Error: Arrays must have the same length.";
-        }
+    else if (A->dim == 2) {
+        if (strcmp(A->size2, B->size2) != 0)
+            return "Error: Arrays must have the same length.";
+
         sprintf(extended,
             "for (int i = 0; i < %s; i++) {\n"
             "\tfor (int j = 0; j < %s; j++) {\n"
@@ -114,8 +104,8 @@ char* copy(int Array_S , int Array_D) {
             A->size1,
             A->size2,
             B->name, 
-            A->name
-        );}
+            A->name);
+    }
 
     return extended;
 }
@@ -125,26 +115,27 @@ char* copy(int Array_S , int Array_D) {
 char* initialize(int array_table_index) {
     char* extended = malloc(1024);
 
-    if (AT[array_table_index].dim == 1) {
-        
-        sprintf(extended, "for (int i = 0; i < %s; i++) {\n"
-                          "\t%s[i] = %s;\n"
-                          "}\n",
-                          AT[array_table_index].size1,
-                          AT[array_table_index].name,
-                          PT.rhs1);
-    } else {
-       
-        sprintf(extended, "for (int i = 0; i < %s; i++) {\n"
-                          "\tfor (int j = 0; j < %s; j++) {\n"
-                          "\t\t%s[i][j] = %s;\n"
-                          "\t}\n"
-                          "}\n",
-                          AT[array_table_index].size1,
-                          AT[array_table_index].size2,
-                          AT[array_table_index].name,
-                          PT.rhs1);
-    }
+    struct ArrayTable* A = &AT[array_table_index];
+
+    if (A->dim == 1)
+        sprintf(extended,
+                "for (int i = 0; i < %s; i++) {\n"
+                "\t%s[i] = %s;\n"
+                "}\n",
+                A->size1,
+                A->name,
+                PT.rhs1);
+    else
+        sprintf(extended,
+                "for (int i = 0; i < %s; i++) {\n"
+                "\tfor (int j = 0; j < %s; j++) {\n"
+                "\t\t%s[i][j] = %s;\n"
+                "\t}\n"
+                "}\n",
+                A->size1,
+                A->size2,
+                A->name,
+                PT.rhs1);
 
     return extended;
 }
@@ -156,32 +147,33 @@ char* print(int array_table_index) {
     struct ArrayTable* A = &AT[array_table_index];
     
     if(A->dim == 1)
-    sprintf(extended,
-        "printf(\"[\");\n" 
-        "for (int i = 0; i < %s-1; i++) {\n"
-        "\tprintf(\"%%d, \", %s[i]);\n" 
-        "}\n"
-        "printf(\"%%d]\", %s[%s-1]);\n" ,
-        A->size1,
-        A->name,
-        A->name,
-        A->size1);
+        sprintf(extended,
+            "printf(\"[\");\n"
+            "for (int i = 0; i < %s-1; i++) {\n"
+            "\tprintf(\"%%d, \", %s[i]);\n"
+            "}\n"
+            "printf(\"%%d]\", %s[%s-1]);\n" ,
+            A->size1,
+            A->name,
+            A->name,
+            A->size1);
+
     else if (A->dim == 2)
-    sprintf(extended,
-        "printf(\"[\");\n" 
-        "for (int i = 0; i < %s; i++) {\n"
-        "\tprintf(\"[\");\n" 
-        "\tfor (int j = 0; j < %s-1; j++) {\n"
-        "\t\tprintf(\"%%d, \", %s[i][j]);\n" //ASSUME ARRAY IS INT ARRAY
-        "\t}\n"
-        "\tprintf(\"%%d]\", %s[i][%s-1]);\n" 
-        "}\n"
-        "printf(\"]\");\n",
-        A->size1,
-        A->size2,
-        A->name,
-        A->name,
-        A->size2);
+        sprintf(extended,
+            "printf(\"[\");\n"
+            "for (int i = 0; i < %s; i++) {\n"
+            "\tprintf(\"[\");\n"
+            "\tfor (int j = 0; j < %s-1; j++) {\n"
+            "\t\tprintf(\"%%d, \", %s[i][j]);\n" //ASSUME ARRAY IS INT ARRAY
+            "\t}\n"
+            "\tprintf(\"%%d]\", %s[i][%s-1]);\n"
+            "}\n"
+            "printf(\"]\");\n",
+            A->size1,
+            A->size2,
+            A->name,
+            A->name,
+            A->size2);
 
     return extended;
 }
@@ -193,20 +185,19 @@ char* matrix_dot_product(int A_index , int B_index) {
     struct ArrayTable* A = &AT[A_index];
     struct ArrayTable* B = &AT[B_index];
 
-    if (A->dim != 1 || B->dim != 1) {
+    if (A->dim != 1 || B->dim != 1)
         return "Error: All arrays must be 1D for array  for dot product.";
-    }
-    if (strcmp(A->size1, B->size1) != 0) {
+
+    if (strcmp(A->size1, B->size1) != 0)
         return "Error: Arrays A and B must have the same length for  for dot product.";
-    }
+
     sprintf(extended,
             "P_dot = 0;\n"
             "for (int i = 0; i < %s; i++) {\n"
             "\tP_dot += %s[i] + %s[i];\n"
             "}\n",
             A->size1,
-            A->name, B->name
-    );
+            A->name, B->name);
 
     return extended;
 }
@@ -220,36 +211,34 @@ char* matrix_addition(int C_index, int A_index , int B_index) {
     struct ArrayTable* C = &AT[C_index];
 
     if (A->dim == 1 && B->dim == 1 && C->dim == 1) {
-       if ((strcmp(A->size1, B->size1) != 0) ||
-            (strcmp(A->size1, B->size1) != 0) ||
-            (strcmp(A->size1, C->size1) != 0)) {
-        return "Error: Arrays A , B and C must have the same length for array addition.";
+        if ((strcmp(A->size1, B->size1) != 0)||
+        (strcmp(A->size1, B->size1) != 0) || (strcmp(A->size1, C->size1) != 0)) {
+            return "Error: Arrays A , B and C must have the same length for array addition.";
         }
-       sprintf(extended,
-        "for (int i = 0; i < %s; i++) {\n"
-        "\t%s[i] = %s[i] + %s[i];\n"
-        "}\n",
-        A->size1,
-        C->name, A->name, B->name
-        ); 
     }
     else if (A->dim == 2 && B->dim == 2 && C->dim == 2){
+        sprintf(extended,
+                "for (int i = 0; i < %s; i++) {\n"
+                "\t%s[i] = %s[i] + %s[i];\n"
+                "}\n",
+                A->size1,
+                C->name, A->name, B->name);
+
         if ((strcmp(A->size1, B->size1) != 0) ||
             (strcmp(A->size1, C->size1) != 0) ||
             (strcmp(A->size2, B->size2) != 0) ||
             (strcmp(A->size2, C->size2) != 0)) {
-        return "Error: Arrays A , B and C must have the same length for array addition.";
+            return "Error: Arrays A , B and C must have the same length for array addition.";
         }
         sprintf(extended,
-        "for (int i = 0; i < %s; i++) {\n"
-        "\tfor(int j = 0; j < %s; j++){\n"
-        "\t\t%s[i][j] = %s[i][j] + %s[i][j];\n"
-        "\t}\n"
-        "}\n",
-        A->size1,
-        A->size2,
-        C->name, A->name, B->name
-        ); 
+                "for (int i = 0; i < %s; i++) {\n"
+                "\tfor(int j = 0; j < %s; j++){\n"
+                "\t\t%s[i][j] = %s[i][j] + %s[i][j];\n"
+                "\t}\n"
+                "}\n",
+                A->size1,
+                A->size2,
+                C->name, A->name, B->name);
     } else {
         return "Error: All arrays must have the same dimensions for array addition.";
     }
@@ -269,27 +258,24 @@ char* matrix_multiplication(int C_index, int A_index , int B_index) {
         if ((strcmp(A->size1, C->size1) != 0) ||
             (strcmp(A->size2, B->size1) != 0) ||
             (strcmp(B->size2, C->size2) != 0)) {
-        return "Error: Arrays A , B and C must have axb bxc axc respectively sizes for array multiplication.";
-        }else {
+            return "Error: Arrays A , B and C must have axb bxc axc respectively sizes for array multiplication.";
+        } else {
             sprintf(extended,
-            "for (int i = 0; i < %s; i++){\n"
-            "\tfor (int j = 0; j < %s; j++){\n"
-            "\t\t%s[i][j] = 0;\n"
-            "\t\tfor (int k = 0; k < %s; k++){\n"
-            "\t\t\t%s[i][j] += %s[i][k] * %s[k][j];\n"
-            "\t\t}\n"
-            "\t}\n"
-            "}\n",
-            C->size1,
-            C->size2,
-            C->name,
-            A->size2,
-            C->name, A->name, B->name
-            );
+                    "for (int i = 0; i < %s; i++){\n"
+                    "\tfor (int j = 0; j < %s; j++){\n"
+                    "\t\t%s[i][j] = 0;\n"
+                    "\t\tfor (int k = 0; k < %s; k++){\n"
+                    "\t\t\t%s[i][j] += %s[i][k] * %s[k][j];\n"
+                    "\t\t}\n"
+                    "\t}\n"
+                    "}\n",
+                    C->size1,
+                    C->size2,
+                    C->name,
+                    A->size2,
+                    C->name, A->name, B->name);
         }
-    
     } else {
-        printf("%s: %d, %s: %d, %s: %d\n", A->name, A->dim,B->name,B->dim,C->name,C->dim);
         return "Error: Arrays A , B and C must have the 2D for array multiplication.";
     }
 
@@ -302,33 +288,28 @@ char* reduction_operations_sum(int A_index) {
 
     struct ArrayTable* A = &AT[A_index];
 
-    if(A->dim == 1) {
-
+    if(A->dim == 1)
         sprintf(extended,
-        "P_sum = 0;\n"
-        "for(int i = 0; i < %s; i++){\n"
-        "\tP_sum += %s[i];\n"
-        "}\n",
-        A->size1,
-        A->name);
-    }
-    else if(A->dim == 2) {
+                "P_sum = 0;\n"
+                "for(int i = 0; i < %s; i++){\n"
+                "\tP_sum += %s[i];\n"
+                "}\n",
+                A->size1,
+                A->name);
 
+    else if(A->dim == 2)
         sprintf(extended,
-        "P_sum = 0;\n"
-        "for(int i = 0; i < %s; i++){\n"
-        "\tfor(int j = 0; j < %s; j++){\n"
-        "\t\tP_sum += %s[i][j];\n"
-        "\t}\n"
-        "}\n",
-        A->size1,
-        A->size2,
-        A->name);
-
-    }
-    else {
+                "P_sum = 0;\n"
+                "for(int i = 0; i < %s; i++){\n"
+                "\tfor(int j = 0; j < %s; j++){\n"
+                "\t\tP_sum += %s[i][j];\n"
+                "\t}\n"
+                "}\n",
+                A->size1,
+                A->size2,
+                A->name);
+    else
         return "Error: Unsupported dimension for sum operation.";
-    }
 
     return extended;
 }
@@ -339,8 +320,7 @@ char* reduction_operations_aver(int A_index) {
 
     struct ArrayTable* A = &AT[A_index];
 
-    if(A->dim == 1) {
-
+    if(A->dim == 1)
         sprintf(extended,
         "P_aver = 0;\n"
         "for(int i = 0; i < %s; i++){\n"
@@ -351,9 +331,7 @@ char* reduction_operations_aver(int A_index) {
         A->name,
         A->size1);
 
-    }
-    else if(A->dim == 2) {
-
+    else if(A->dim == 2)
         sprintf(extended,
         "P_aver = 0;\n"
         "for(int i = 0; i < %s; i++){\n"
@@ -367,11 +345,8 @@ char* reduction_operations_aver(int A_index) {
         A->name,
         A->size1,
         A->size2);
-
-    }
-    else {
+    else
         return "Error: Unsupported dimension for average operation.";
-    }
 
     return extended;
 }

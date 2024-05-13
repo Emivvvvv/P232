@@ -9,7 +9,6 @@
 
 
 // Function declarations
-void assign_token(const char *token, char *target);
 void parse_line(char* line);
 void enter_array_table();
 void process_and_expand_directive();
@@ -26,17 +25,15 @@ FILE* source_file = NULL;
 FILE* expanded_file = NULL;
 
 int main(int argc, char *argv[]) {
-//    if (argc != 2) {
-//        printf("Usage: %s <filename>.c\n", argv[0]);
-//        return 1;
-//    }
+    if (argc != 2) {
+        printf("Usage: %s <filename>.c\n", argv[0]);
+        return 1;
+    }
 
     char* filename = argv[1];
 
-    filename = "/Users/emivvvvv/Documents/GitHub/P232/myCprog.c";
-
     source_file = fopen(filename, "r");
-    expanded_file = fopen("/Users/emivvvvv/Documents/GitHub/P232/expanded.c", "w");
+    expanded_file = fopen("expanded.c", "w");
 
     if (!source_file) {
         printf("Couldn't open source file \"%s\"\n", filename);
@@ -105,11 +102,11 @@ void enter_array_table() {
     strcpy(AT[array_table_index].size1, PT.rhs1);
     strcpy(AT[array_table_index].size2, PT.rhs2);
 
-    if (PT.rhs2[0] == '\0') {
+    if (PT.rhs2[0] == '\0')
         AT[array_table_index].dim = 1;
-    } else {
+    else
         AT[array_table_index].dim = 2;
-    }
+
     array_table_index++;
 }
 
@@ -117,30 +114,29 @@ void enter_array_table() {
 void process_and_expand_directive() {
     char expanded_line[2048] = {0};
 
-    if (strcmp(PT.oper, "@int") == 0) {
+    if (strcmp(PT.oper, "@int") == 0)
         strcpy(expanded_line, declaration(array_table_index - 1));
-    } else if (strcmp(PT.oper, "@read") == 0) {
+    else if (strcmp(PT.oper, "@read") == 0)
         strcpy(expanded_line, read(find_array_index(PT.lhs)));
-    } else if (strcmp(PT.oper, "@copy") == 0) {
+    else if (strcmp(PT.oper, "@copy") == 0)
         strcpy(expanded_line, copy(find_array_index(PT.rhs1),find_array_index(PT.lhs)));
-    } else if (strcmp(PT.oper, "@init") == 0) {
+    else if (strcmp(PT.oper, "@init") == 0)
         strcpy(expanded_line, initialize(find_array_index(PT.lhs)));
-    } else if (strcmp(PT.oper, "@print") == 0) {
+    else if (strcmp(PT.oper, "@print") == 0)
         strcpy(expanded_line, print(find_array_index(PT.lhs)));
-    } else if (strcmp(PT.oper, "@dotp") == 0) {
+    else if (strcmp(PT.oper, "@dotp") == 0)
         strcpy(expanded_line, matrix_dot_product(find_array_index(PT.rhs1),find_array_index(PT.rhs2)));
-    } else if (strcmp(PT.oper, "@add") == 0) {
+    else if (strcmp(PT.oper, "@add") == 0)
         strcpy(expanded_line, matrix_addition(find_array_index(PT.lhs),find_array_index(PT.rhs1),find_array_index(PT.rhs2)));
-    } else if (strcmp(PT.oper, "@mmult") == 0) {
+    else if (strcmp(PT.oper, "@mmult") == 0)
         strcpy(expanded_line, matrix_multiplication(find_array_index(PT.lhs),find_array_index(PT.rhs1),find_array_index(PT.rhs2)));
-    } else if (strcmp(PT.oper, "@sum") == 0) {
+    else if (strcmp(PT.oper, "@sum") == 0)
         strcpy(expanded_line, reduction_operations_sum(find_array_index(PT.lhs)));
-    } else if (strcmp(PT.oper, "@aver") == 0) {
+    else if (strcmp(PT.oper, "@aver") == 0)
         strcpy(expanded_line, reduction_operations_aver(find_array_index(PT.lhs)));
-    } else {
-        printf("Undefined directive: %s", PT.oper);
-    }
-    
+    else
+        sprintf(expanded_line, "Undefined directive: %s", PT.oper);
+
     print_with_spaces(expanded_line);
 }
 

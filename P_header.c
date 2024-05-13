@@ -227,7 +227,7 @@ char* matrix_addition(int C_index, int A_index , int B_index) {
         }
        sprintf(extended,
         "for (int i = 0; i < %s; i++) {\n"
-        "\t%c[i] = %c[i] + %c[i];\n"
+        "\t%s[i] = %s[i] + %s[i];\n"
         "}\n",
         A->size1,
         C->name[0], A->name[0], B->name[0]
@@ -243,12 +243,12 @@ char* matrix_addition(int C_index, int A_index , int B_index) {
         sprintf(extended,
         "for (int i = 0; i < %s; i++) {\n"
         "\tfor(int j = 0; j < %s; j++){\n"
-        "\t\t%c[i][j] = %c[i][j] + %c[i][j];\n"
+        "\t\t%s[i][j] = %s[i][j] + %s[i][j];\n"
         "\t}\n"
         "}\n",
         A->size1,
         A->size2,
-        C->name[0], A->name[0], B->name[0]
+        C->name, A->name, B->name
         ); 
     } else {
         return "Error: All arrays must have the same dimensions for array addition.";

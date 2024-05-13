@@ -289,6 +289,7 @@ char* matrix_multiplication(int C_index, int A_index , int B_index) {
         }
     
     } else {
+        printf("%s: %d, %s: %d, %s: %d\n", A->name, A->dim,B->name,B->dim,C->name,C->dim);
         return "Error: Arrays A , B and C must have the 2D for array multiplication.";
     }
 

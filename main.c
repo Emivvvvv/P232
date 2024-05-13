@@ -26,17 +26,14 @@ FILE* source_file = NULL;
 FILE* expanded_file = NULL;
 
 int main(int argc, char *argv[]) {
-//    if (argc != 2) {
-//        printf("Usage: %s <filename>.c\n", argv[0]);
-//        return 1;
-//    }
+    if (argc != 2) {
+        printf("Usage: %s <filename>.c\n", argv[0]);
+        return 1;
+    }
 
     char* filename = argv[1];
-
-    filename = "/Users/emivvvvv/Documents/GitHub/P232/myCprog.c";
-
     source_file = fopen(filename, "r");
-    expanded_file = fopen("/Users/emivvvvv/Documents/GitHub/P232/expanded.c", "w");
+    expanded_file = fopen("expanded.c", "w");
 
     if (!source_file) {
         printf("Couldn't open source file \"%s\"\n", filename);
@@ -71,8 +68,20 @@ int main(int argc, char *argv[]) {
 void parse_line(char* line) {
     strcpy(PT.oper, strtok(line, " (,)<=.+*"));
     strcpy(PT.lhs, strtok(NULL, " (,)<=.+*"));
-    strcpy(PT.rhs1, strtok(NULL, " (,)<=.+*"));
-    strcpy(PT.rhs2, strtok(NULL, " (,)<=.+*"));
+
+    char* rhs1 = strtok(NULL, " (,)<=.+*");
+    if (rhs1 == NULL) {
+        PT.rhs1[0] = '\0';
+    } else {
+        strcpy(PT.rhs1, rhs1);
+    }
+
+    char* rhs2 = strtok(NULL, " (,)<=.+*");
+    if (rhs2 == NULL) {
+        PT.rhs2[0] = '\0';
+    } else {
+        strcpy(PT.rhs2, rhs2);
+    }
 }
 
 void enter_array_table() {
@@ -148,11 +157,11 @@ void print_with_spaces(const char* expanded_line) {
 //Find the AT index that has given array name
 int find_array_index(const char* array_name) {
     for (int i = 0; i < 20 && AT[i].name[0] != '\0'; i++) {
-        if (strcmp(AT[i].name, array_name) != 0) {
-            return i; 
+        if (strcmp(AT[i].name, array_name) == 0) {
+            return i;
         }
     }
-    printf("Undefined Array: %s", array_name);
+    printf("ERR: Undefined Array: %s\n", array_name);
     return -1; 
 }
 

@@ -22,9 +22,9 @@ int main()
     // =========
     @int Z(5,4)
     // =========
-    @read Z < f1
+    @read Z < testfile
     // =========
-        @dotp Z= B . C
+        @dotp Z = B . C
     // =========
             @add E = F + G
     // =========

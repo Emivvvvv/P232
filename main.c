@@ -113,34 +113,34 @@ void enter_array_table() {
 // Process directive based on parsed information
 void process_and_expand_directive() {
     char* expanded_line = NULL;
-    char undefined_string[100] = {0};
+    char undefined_string[50] = "Undefined directive";
 
     if (strcmp(PT.oper, "@int") == 0)
-        expanded_line =  declaration(array_table_index - 1);
+        expanded_line = declaration(array_table_index - 1);
     else if (strcmp(PT.oper, "@read") == 0)
-        expanded_line =  read(find_array_index(PT.lhs));
+        expanded_line = read(find_array_index(PT.lhs));
     else if (strcmp(PT.oper, "@copy") == 0)
-        expanded_line =  copy(find_array_index(PT.rhs1),find_array_index(PT.lhs));
+        expanded_line = copy(find_array_index(PT.rhs1),find_array_index(PT.lhs));
     else if (strcmp(PT.oper, "@init") == 0)
-        expanded_line =  initialize(find_array_index(PT.lhs));
+        expanded_line = initialize(find_array_index(PT.lhs));
     else if (strcmp(PT.oper, "@print") == 0)
-        expanded_line =  print(find_array_index(PT.lhs));
+        expanded_line = print(find_array_index(PT.lhs));
     else if (strcmp(PT.oper, "@dotp") == 0)
         expanded_line = matrix_dot_product(find_array_index(PT.rhs1),find_array_index(PT.rhs2));
     else if (strcmp(PT.oper, "@add") == 0)
-        expanded_line =  matrix_addition(find_array_index(PT.lhs),find_array_index(PT.rhs1),find_array_index(PT.rhs2));
+        expanded_line = matrix_addition(find_array_index(PT.lhs),find_array_index(PT.rhs1),find_array_index(PT.rhs2));
     else if (strcmp(PT.oper, "@mmult") == 0)
-        expanded_line =  matrix_multiplication(find_array_index(PT.lhs),find_array_index(PT.rhs1),find_array_index(PT.rhs2));
+        expanded_line = matrix_multiplication(find_array_index(PT.lhs),find_array_index(PT.rhs1),find_array_index(PT.rhs2));
     else if (strcmp(PT.oper, "@sum") == 0)
-        expanded_line =  reduction_operations_sum(find_array_index(PT.lhs));
+        expanded_line = reduction_operations_sum(find_array_index(PT.lhs));
     else if (strcmp(PT.oper, "@aver") == 0)
-        expanded_line =  reduction_operations_aver(find_array_index(PT.lhs));
-    else {
-        sprintf(undefined_string, "Undefined directive: %s", PT.oper);
+        expanded_line = reduction_operations_aver(find_array_index(PT.lhs));
+
+    if (expanded_line != NULL) {
+        print_with_spaces(expanded_line);
+    } else {
         print_with_spaces(undefined_string);
     }
-
-    print_with_spaces(expanded_line);
 }
 
 void print_with_spaces(const char* expanded_line) {

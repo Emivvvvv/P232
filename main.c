@@ -113,7 +113,7 @@ void enter_array_table() {
 // Process directive based on parsed information
 void process_and_expand_directive() {
     char* expanded_line = NULL;
-    char undefined_string[50] = "Undefined directive";
+    char undefined_string[100] = {0};
 
     if (strcmp(PT.oper, "@int") == 0)
         expanded_line = declaration(array_table_index - 1);
@@ -139,6 +139,7 @@ void process_and_expand_directive() {
     if (expanded_line != NULL) {
         print_with_spaces(expanded_line);
     } else {
+        sprintf(undefined_string, "Undefined directive: %s", PT.oper);
         print_with_spaces(undefined_string);
     }
 }

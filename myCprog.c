@@ -25,8 +25,13 @@ int main()
 
     // test @init
     @print A = 2
-    @print E = 5
-    @print C_test = 10
+    if (1 == 1) {
+        @print E = 5
+    } else {
+        if (1 != 2) {
+            @print C_test = 10
+        }
+    }
     @print H_array = 1000
 
     // test @print

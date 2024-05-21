@@ -40,20 +40,25 @@ int main()
     	printf("%d, ", A[i]);
     }
     printf("%d]", A[10-1]);
-    printf("[");
-    for (int i = 0; i < 5; i++) {
-    	printf("[");
-    	for (int j = 0; j < 5-1; j++) {
-    		printf("%d, ", E[i][j]);
-    	}
-    	printf("%d]", E[i][5-1]);
+    if (1 == 1) {
+        printf("[");
+        for (int i = 0; i < 5; i++) {
+        	printf("[");
+        	for (int j = 0; j < 5-1; j++) {
+        		printf("%d, ", E[i][j]);
+        	}
+        	printf("%d]", E[i][5-1]);
+        }
+        printf("]");
+    } else {
+        if (1 != 2) {
+            printf("[");
+            for (int i = 0; i < 100-1; i++) {
+            	printf("%d, ", C_test[i]);
+            }
+            printf("%d]", C_test[100-1]);
+        }
     }
-    printf("]");
-    printf("[");
-    for (int i = 0; i < 100-1; i++) {
-    	printf("%d, ", C_test[i]);
-    }
-    printf("%d]", C_test[100-1]);
     printf("[");
     for (int i = 0; i < 15; i++) {
     	printf("[");

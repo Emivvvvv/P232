@@ -142,6 +142,8 @@ void process_and_expand_directive() {
         sprintf(undefined_string, "Undefined directive: %s", PT.oper);
         print_with_spaces(undefined_string);
     }
+
+    free(expanded_line);
 }
 
 void print_with_spaces(const char* expanded_line) {

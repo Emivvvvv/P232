@@ -35,39 +35,27 @@ int main()
     }
 
     // test @init
-    printf("[");
-    for (int i = 0; i < 10-1; i++) {
-    	printf("%d, ", A[i]);
+    for (int i = 0; i < 10; i++) {
+    	A[i] = 2;
     }
-    printf("%d]", A[10-1]);
     if (1 == 1) {
-        printf("[");
         for (int i = 0; i < 5; i++) {
-        	printf("[");
-        	for (int j = 0; j < 5-1; j++) {
-        		printf("%d, ", E[i][j]);
+        	for (int j = 0; j < 5; j++) {
+        		E[i][j] = 5;
         	}
-        	printf("%d]", E[i][5-1]);
         }
-        printf("]");
     } else {
         if (1 != 2) {
-            printf("[");
-            for (int i = 0; i < 100-1; i++) {
-            	printf("%d, ", C_test[i]);
+            for (int i = 0; i < 100; i++) {
+            	C_test[i] = 10;
             }
-            printf("%d]", C_test[100-1]);
         }
     }
-    printf("[");
     for (int i = 0; i < 15; i++) {
-    	printf("[");
-    	for (int j = 0; j < 125-1; j++) {
-    		printf("%d, ", H_array[i][j]);
+    	for (int j = 0; j < 125; j++) {
+    		H_array[i][j] = 1000;
     	}
-    	printf("%d]", H_array[i][125-1]);
     }
-    printf("]");
 
     // test @print
     printf("[");
@@ -170,5 +158,8 @@ int main()
     }
     P_aver /= (15 * 125);
 
+    // test undefined oper
+    Undefined directive: @undef
+    Undefined directive: @what
     return 0;
 }

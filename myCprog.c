@@ -24,15 +24,15 @@ int main()
     @copy G_test = G_test2
 
     // test @init
-    @print A = 2
+    @init A = 2
     if (1 == 1) {
-        @print E = 5
+        @init E = 5
     } else {
         if (1 != 2) {
-            @print C_test = 10
+            @init C_test = 10
         }
     }
-    @print H_array = 1000
+    @init H_array = 1000
 
     // test @print
     @print A
@@ -61,5 +61,8 @@ int main()
     @aver C_test
     @aver H_array
 
+    // test undefined oper
+    @undef
+    @what
     return 0;
 }
